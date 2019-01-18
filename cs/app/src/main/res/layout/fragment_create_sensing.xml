@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#454545"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/sensing_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/sensing_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+<!--
+        <EditText
+            android:id="@+id/sensing_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="@string/sensing_description"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:selectAllOnFocus="false"
+            android:singleLine="false"
+            android:textColor="#FFFFFF" />
+-->
+        <TextView
+            android:id="@+id/sensor_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sensors"
+            android:textColor="#FFFFFF"
+            />
+
+        <ListView
+            android:id="@+id/sensor_list"
+            android:background="#454545"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentStart="true"
+            android:choiceMode="singleChoice"
+            android:layout_below="@+id/sensor_label" />
+
+        <EditText
+            android:id="@+id/sensing_readings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:inputType="number"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/sensor_list"
+            android:hint="@string/sensing_readings"/>
+
+        <TextView
+            android:id="@+id/map_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/sensing_readings" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/map_label"/>
+
+        <Button
+            android:id="@+id/create_sensing_task_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_task"
+            android:layout_below="@+id/mapView"/>
+    </RelativeLayout>
+</LinearLayout>

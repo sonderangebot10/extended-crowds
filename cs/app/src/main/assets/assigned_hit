@@ -1,0 +1,4 @@
+// Add new implementation of assigned HITs as follow; class name:package:associated HIT type
+AssignedSingleChoiceTask:HITs.assigned:single
+AssignedMultipleChoiceTask:HITs.assigned:multiple
+AssignedNumericTask:HITs.assigned:numeric

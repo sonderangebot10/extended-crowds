@@ -1,0 +1,180 @@
+<resources>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="app_name">CrowdS</string>
+    <string name="action_settings">Settings</string>
+    <string name="assigned_tasks">Assigned Tasks</string>
+    <string name="create_task">Create Task</string>
+    <string name="task_history">Task History</string>
+    <string name="setting">Settings</string>
+    <string name="device_info">Device Information</string>
+    <string name="icon_description">Navigation Drawer List Icons</string>
+    <string name="profile_image">User profile image</string>
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer close</string>
+    <string name="sensors">Sensors</string>
+    <string name="location">Choose location:</string>
+    <string name="device_info_string">My sensors</string>
+
+    <string name="default_username">user_name</string>
+    <string name="default_email">test@email.com</string>
+    <string name="default_error">Something went wrong, please try again later.</string>
+    <string name="not_yet_implemented">not yet implemented</string>
+
+    <!-- Slide menu strings in the MainActivity -->
+    <string-array name="list_items">
+        <item>Assigned Tasks</item>
+        <item>Create Task</item>
+        <item>Ongoing Tasks</item>
+        <item>Task History</item>
+        <item>Device Information</item>
+        <item>Account management</item>
+        <item>Reward</item>
+        <item>Log out</item>
+    </string-array>
+    <string-array name="list_subitems">
+        <item>Tasks assigned to you</item>
+        <item>Create a crowdsourcing task</item>
+        <item>View your ongoing tasks</item>
+        <item>View your task history</item>
+        <item>View your device information</item>
+        <item>Manage your account</item>
+        <item>See how many virtual points you have earned</item>
+        <item>Log out from your account</item>
+    </string-array>
+
+    <!-- Errors -->
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_username">This username is incorrect</string>
+    <string name="error_incorrect_login">Email and/or password is incorrect</string>
+    <string name="error_password_mismatch">Password does not match</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_user_exists">A user with that email address already exists</string>
+    <string name="error_cant_connect_to_server">Can\'t establish a connection to the server, please try again later.</string>
+
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Login and Registration -->
+    <string name="internet_title">Internet access</string>
+    <string name="internet_message">An internet connection is needed to use this app, please enable.</string>
+    <string name="gps_title">GPS needs to be activated</string>
+    <string name="gps_message">The GPS needs to be activated to use this app, please enable.</string>
+    <string name="prompt_email">Email address</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_password_new">New password</string>
+    <string name="prompt_repeat_password">Repeat password</string>
+    <string name="prompt_restore_instruction">This feature is not yet implemented, please contact server admins for assistance.</string>
+    <string name="prompt_username">Username</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="action_reset_password">Reset password</string>
+    <string name="register_success">"User successfully registred"</string>
+    <string name="new_version_title">New version available</string>
+    <string name="new_version_message">There is a new version available, please download it from here: https://www.dropbox.com/s/3gh17s75ma4xax9/crowds.apk?dl=0</string>
+    <string name="maintenance_title">Maintenance</string>
+    <string name="maintenance_message">Servers are currently down from maintenance, estamated time left: </string>
+
+    <string name="registratoin_question_1">How old is your phone?</string>
+    <string name="registratoin_question_1_option_1">Less than 1 year</string>
+    <string name="registratoin_question_1_option_2">Between 1 and 2 years</string>
+    <string name="registratoin_question_1_option_3">More than 2 years</string>
+    <string name="registratoin_question_2">How motivated are you to participate?</string>
+    <string name="registratoin_question_2_option_1">Very</string>
+    <string name="registratoin_question_2_option_2">Moderate</string>
+    <string name="registratoin_question_2_option_3">Little</string>
+    <string name="registratoin_question_3">How long does your battery last (normal usage)?</string>
+    <string name="registratoin_question_3_option_1">Less than 12h</string>
+    <string name="registratoin_question_3_option_2">Between 12h and 24h</string>
+    <string name="registratoin_question_3_option_3">More than 24h</string>
+
+    <!-- Create task fragment -->
+    <string name="sensing_task">Sensing task</string>
+    <string name="sensing_button">Create a sensing task</string>
+    <string name="hit_task">Human intelligence task</string>
+    <string name="hit_button">Create a human intelligence task</string>
+    <string name="hit_description">Description</string>
+    <string name="hit_question">Question</string>
+    <string name="hit_single_choice">SingleChoice</string>
+    <string name="hit_single_choice_task">Create single choice task</string>
+    <string name="hit_multiple_choice">MultipleChoice</string>
+    <string name="hit_multiple_choice_task">Create multiple choice task</string>
+    <string name="hit_numeric">Numeric</string>
+    <string name="hit_numeric_task">Create a numeric task</string>
+    <string name="hit_image">Image</string>
+    <string name="hit_type">Choose task type:</string>
+    <string name="hit_continue">Continue</string>
+    <string name="hit_add_option">Add option</string>
+    <string name="hit_task_option">New option</string>
+    <string name="hit_error_question">Question can not be empty</string>
+    <string name="hit_error_location">No location provided, please tap the map!</string>
+    <string name="error_insufficient_options">Needs at least two options.</string>
+    <string name="sensing_description">Description</string>
+    <string name="sensing_duration">Duration (min)</string>
+    <string name="sensing_readings">Number of readings</string>
+    <string name="sensing_error_greater_than_zero">Field needs to be greater than zero.</string>
+    <string name="sensing_error_invalid_readings">Number of readings can\'t be greater than duration.</string>
+    <string name="sensing_error_no_location">No location provided, please tap the map!</string>
+    <string name="submit">Submit</string>
+    <string name="question">Question:</string>
+    <string name="question_options">Option</string>
+    <string name="camera">Camera</string>
+    <string name="task_success">Task successfully created.</string>
+
+    <!-- Account settings -->
+    <string name="account_username">Username:</string>
+    <string name="account_email">Email address: </string>
+    <string name="account_new_username">New username</string>
+    <string name="account_update">Update information</string>
+    <string name="account_delete">Delete account</string>
+    <string name="account_delete_confirm">Are you sure you want to delete your account?</string>
+    <string name="update_successful">Update successful!</string>
+    <string name="update_failed">Update failed, please try again later.</string>
+    <string name="delete_successful">Account successfully deleted</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+
+
+    <!-- Task History -->
+    <string name="task_history_label">Read sensor: </string>
+    <string name="task_history_sensor">sensor</string>
+    <string name="task_history_task">Task:</string>
+    <string name="task_history_mean">Mean:</string>
+    <string name="task_history_max">Max:</string>
+    <string name="task_history_min">Min:</string>
+    <string name="task_history_created">Created:</string>
+    <string name="task_history_completed">Completed:</string>
+
+    <!-- Assigned Task -->
+    <string name="assigned_task_choices">Choices:</string>
+    <string name="assigned_task_success">Success!</string>
+    <string name="assigned_task_answer">Enter answer:</string>
+
+    <!-- Rewards -->
+    <string name="reward_points_label">Points:</string>
+
+    <!-- Ongoing tasks -->
+    <string name="ongoing_tasks">Ongoing tasks</string>
+
+
+    <!-- URLS used in the application -->
+    <string name="UPDATE_URL">http://217.211.176.94:1212/update_user.php</string>
+    <string name="DELETE_URL">http://217.211.176.94:1212/delete_user.php</string>
+    <string name="RESTORE_URL">http://217.211.176.94:1212/restore_password.php</string>
+    <string name="LOGIN_URL">http://217.211.176.94:1212/login.php</string>
+    <string name="LOGOUT_URL">http://217.211.176.94:1212/logout.php</string>
+    <string name="REGISTER_URL">http://217.211.176.94:1212/register_user.php</string>
+    <string name="CREATE_TASK_URL">http://217.211.176.94:1212/create_task.php</string>
+    <string name="UPDATE_TASK_URL">http://217.211.176.94:1212/update_task.php</string>
+    <string name="TASK_HISTORY_URL">http://217.211.176.94:1212/task_history.php</string>
+    <string name="REWARD_URL">http://217.211.176.94:1212/reward.php</string>
+    <string name="HEARTBEAT_URL">http://217.211.176.94:1212/heartbeat_update.php</string>
+    <string name="ONGOING_URL">http://217.211.176.94:1212/ongoing_task.php</string>
+    <string name="POSITIONS_URL">http://217.211.176.94:1212/positions.php</string>
+
+</resources>

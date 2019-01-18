@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/device_information"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Device Information" />
+        <item
+            android:id="@+id/assigned_tasks"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Assigned Tasks" />
+        <item
+            android:id="@+id/creste_task"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Create Task" />
+        <item
+            android:id="@+id/task_history"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Task History" />
+    </group>
+
+</menu>

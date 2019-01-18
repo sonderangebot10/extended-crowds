@@ -1,0 +1,4 @@
+// Add new HIT types as follow; class name:package:display name
+CreateSingleChoiceTask:HITs.create:Single choice
+CreateMultipleChoiceTask:HITs.create:Multiple choice
+CreateNumericTask:HITs.create:Numeric
