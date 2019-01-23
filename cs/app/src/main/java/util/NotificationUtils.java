@@ -1,6 +1,6 @@
 package util;
 
-
+// lol
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;

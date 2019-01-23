@@ -1,19 +1,4 @@
 // To ad
-accelerometer 1
 ambient_temperature 13
-game_rotation_vector 15
-geomagnetic_rotation_vector 20
-gravity 9
-gyroscope 4
-gyroscope_uncalibrated 16
 light 5
-linear_acceleration 10
-magnetic_field 2
-magnetic_field_uncalibrated 14
 pressure 6
-proximity 8
-relative_humidity 12
-rotation_vector 11
-significant_motion 17
-step_counter 19
-step_detector 18

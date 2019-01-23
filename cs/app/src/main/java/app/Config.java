@@ -20,5 +20,9 @@ public class Config {
     // The version of this application
     public static final String VERSION = "0.019";
 
+    // The interval of which readings of a Sensing task are taken in minutes
     public static final int TASK_INTERVAL = 9;
+
+    // Dsiplay online users on the map during task creation
+    public static final boolean SHOW_USERS_ON_MAP = false;
 }

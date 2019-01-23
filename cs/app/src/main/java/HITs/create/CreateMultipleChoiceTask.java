@@ -131,7 +131,7 @@ public class CreateMultipleChoiceTask implements CreateHITInterface, OnMapReadyC
         this.context = context;
 
         positions = new ArrayList<>();
-        getPositions();
+        if(Config.SHOW_USERS_ON_MAP == true) getPositions();
 
         // Change the toolbar title to something appropriate.
         MainActivity.setToolbarTitle(context.getString(R.string.hit_multiple_choice_task));

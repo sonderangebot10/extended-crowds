@@ -112,8 +112,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 */
 
 
-        changeActivity(context, MainActivity.class);
-        finish();
 
         //Check if already logged in
         if(TextUtils.equals(prefs.getString("is_logged_in", ""), "true") && SystemUtils.isNetworkAvailable(LoginActivity.this)){

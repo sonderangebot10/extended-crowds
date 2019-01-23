@@ -81,7 +81,7 @@ public class CreateSensingFragment extends android.app.Fragment
     private View focusView = null;
 
     private CustomListViewAdapter mAdapter;
-    static final String[] sensors = {"ambient temperature", "light", "pressure"};
+    // static final String[] sensors = {"ambient temperature", "light", "pressure"};
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -107,7 +107,6 @@ public class CreateSensingFragment extends android.app.Fragment
         View view = inflater.inflate(R.layout.fragment_create_sensing, container, false);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Log.e("HAHAHHA", String.valueOf(savedInstanceState == null));
 
         // Change the toolbar title to something appropriate.
         MainActivity.setToolbarTitle(getString(R.string.sensing_task));
@@ -129,12 +128,12 @@ public class CreateSensingFragment extends android.app.Fragment
         queue = Volley.newRequestQueue(getActivity());
 
         positions = new ArrayList<>();
-   //     getPositions();
+        if(Config.SHOW_USERS_ON_MAP == true) getPositions();
 
         // get available sensors and populate the list view
-        //ArrayList<String> mySensors = SystemUtils.readSensorTypesList(getActivity());
-        //Collections.sort(mySensors);
-        //final String[] sensors = mySensors.toArray(new String[0]);
+        ArrayList<String> mySensors = SystemUtils.readSensorTypesList(getActivity());
+        Collections.sort(mySensors);
+        final String[] sensors = mySensors.toArray(new String[0]);
 
         final List<Item> items = new LinkedList<>();
         for (String sensor : sensors) {
@@ -344,7 +343,7 @@ public class CreateSensingFragment extends android.app.Fragment
 
     @Override
     public void onMapClick(LatLng point) {
-        // We onlu want one marker on the map
+        // We only want one marker on the map
         if(marker != null){
             marker.remove();
         }

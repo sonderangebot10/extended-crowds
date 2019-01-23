@@ -108,7 +108,7 @@ public class SensorService extends IntentService implements SensorEventListener 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Log.e(TAG, "I AM INSIDE sesseessss");
+     //   Log.e(TAG, "I AM INSIDE sesseessss");
 
         UPDATE_TASK_URL = getString(R.string.UPDATE_TASK_URL);
         queue = Volley.newRequestQueue(getApplicationContext());

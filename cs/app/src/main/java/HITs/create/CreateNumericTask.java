@@ -124,7 +124,7 @@ public class CreateNumericTask implements CreateHITInterface, OnMapReadyCallback
         MainActivity.setToolbarTitle(context.getString(R.string.hit_numeric_task));
 
         positions = new ArrayList<>();
-        getPositions();
+        if(Config.SHOW_USERS_ON_MAP == true) getPositions();
 
         // Layout parameters to have width stretch the screen and height to wrap content
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
