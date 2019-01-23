@@ -1,0 +1,13 @@
+{"ANDROID_VERSION":"0.019",
+ "IOS_VERSION":"0.004",
+ "DB":"mysql.php",
+ "TA":"vcg.php",
+ "QC_SINGLE":"majority_voting.php",
+ "QC_MULTIPLE":"majority_voting.php",
+ "QC_NUMERIC":"distance.php",
+ "QC_LIGHT":"distance.php",
+ "QC_PRESSURE":"distance.php",
+ "QC_ACCELEROMETER":"distance.php",
+ "QC_AMBIENT_TEMPERATURE":"distance.php",
+ "REP":"completion_ratio.php", 
+ "REW":"easy_points.php"}
