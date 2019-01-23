@@ -15,6 +15,8 @@ class Random implements TaskAllocationInterface{
         $this->dbc->connect();
     }
     
+		// finds a random provider with quality and rep equal or above the threshold
+		// if no provider was found, lower the treshold
     public function getUsers(){
         $qc_threshold = 0.5;
         $rep_threshold = 0.5;

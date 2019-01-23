@@ -11,6 +11,7 @@ class Hit implements TaskHistoryInterface {
         $this->dbc->connect();
     }
     
+		// returns an array with all completed hit tasks for user
     public function getCompletedTasks(){
         
         $user = $this->dbc->getUserFields($this->email, array("hits_created"));

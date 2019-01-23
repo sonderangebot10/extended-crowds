@@ -19,8 +19,8 @@ else{
 	$password = $dbc->escapeString($_POST["password"]);
 	$os = $dbc->escapeString($_POST["device_os"]);
 	$model = $dbc->escapeString($_POST["device_model"]);
-    $firebase = $dbc->escapeString($_POST["firebase"]);
-    $bid = $dbc->escapeString($_POST["bid"]);
+  $firebase = $dbc->escapeString($_POST["firebase"]);
+  $bid = $dbc->escapeString($_POST["bid"]);
 	
 	// sensors is a string with 10010101
 	// 1 if the device has the sensor
@@ -30,18 +30,15 @@ else{
 
 	
 	// read file with all types of sensors
-    $filename = "sensor_types.txt";
+  $filename = "sensor_types.txt";
 	$sensor_types = file($filename, FILE_IGNORE_NEW_LINES);
     
-    $userFields = array("email", "username", "password", "os", "model", "firebase", "bid");
-    
-    $userData = array($id, $username, $password, $os, $model, $firebase, $bid);
-    
-    $sensorFields = array_merge(array("email"),$sensor_types);
-    
-    $hasSensorData = array_merge(array($id), $sensor);
-    
-    $dbc->registerUser($userFields, $userData, $sensorFields, $hasSensorData);
+  $userFields = array("email", "username", "password", "os", "model", "firebase", "bid");
+  $userData = array($id, $username, $password, $os, $model, $firebase, $bid);
+  $sensorFields = array_merge(array("email"),$sensor_types);
+  $hasSensorData = array_merge(array($id), $sensor);  
+  
+	$dbc->registerUser($userFields, $userData, $sensorFields, $hasSensorData);
 
 	// everything went fine!
 	$reply = array('status' => "OK");		

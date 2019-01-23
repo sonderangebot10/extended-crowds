@@ -7,42 +7,26 @@ include("push.php");
 include("system_utils.php");
 include(constant('TA'));
 
+// TTL for sensor and hit tasks
 define('TTL_SENSOR', 10);
-define('TTL_HIT', 180); //180
+define('TTL_HIT', 180); 
 
+// radius of search area (km)
 $radius = 0.025;
 $closest = 0;
 
 $dbc = new DatabaseController();
 $dbc->connect();
 
-/*
-$_POST['email'] = "jowalle@kth.se";
-$_POST['description'] = "pre-made test";
-$_POST['lng'] = "17.950634";
-$_POST['lat'] = "59.404690";
-
-
-$_POST['question'] = "RIP";
-$_POST['hit_type'] = "numeric";
-$_POST['type'] = "hit";
-$_POST['file'] = "numeric.php";
-
-/*
-$_POST['sensor'] = "light";
-$_POST['duration'] = "1";
-$_POST['readings'] = "1";
-$_POST['file'] = "sensor.php";
-$_POST['type'] = "sensor";
-*/
-
 $file_path = "task_creation/" . $_POST['file'];
 include($file_path);
 
+// get all data from POST
 foreach ($_POST as $key => $value){
     $fields[$key] = $dbc->escapeString($value);
 }
 
+// get all online users
 $active = $dbc->getActiveUsers();
 
 // remove the task giver from active pool
@@ -54,14 +38,17 @@ for($i = 0; $i < count($active); $i++){
     }
 }
 
+// filter away uses without required sensor if its a sensor task
 if($fields['type'] == "sensor"){
     $active = $dbc->filterUsersWithSensor($active, $fields['sensor']);
 }
 
+// if there are any active users, find those in close proximity to the task area
 if(count($active) > 0){
     $in_prox_users = getUserInProximityTo($active, $fields['lat'], $fields['lng']);
     
     if(count($in_prox_users) > 0){
+				// Use the selected Task Allocation to find the set of providers
         $ta = getClass(constant('TA'),$in_prox_users);
         $users = $ta->getUsers();
         $cost = $ta->getCost();
@@ -70,7 +57,8 @@ if(count($active) > 0){
     else{
         $users = array();
     }
-
+		
+		// the number of devices the task will be distributed to
     $distributed = count($users);
 }
 
@@ -95,24 +83,25 @@ if($distributed == 0){
 else {
     $fields['distributed'] = $distributed;
     
+		// create the task using the specific task creation file for each task type
+		// can be found in the task_creation folder
     $task_creator = getClass($file_path, $fields);
     $id = $task_creator->insertTask($users);
     $task_creator->sendData($users);
     
+		// schedule to finish the task if it was not completed within the timeframe
     if($fields['type'] == "sensor"){
         $time = $fields['duration'] + TTL_SENSOR;
         $future = date('H:i', strtotime("+".$time." minutes"));
-        
-        exec("echo 'php /var/www/html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."' | at ".$future." 2>&1");
+        exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."' | at ".$future." 2>&1");
     }
     else{
         $future = date('H:i', strtotime("+ ".TTL_HIT." minutes"));
-        
-        exec("echo 'php /var/www/html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."' | at ".$future." 2>&1");
-        
+        exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."' | at ".$future." 2>&1");
         $task_creator->sendNotification($users);
     }
     
+		// If the logging is on
     if(LOG){
         if($fields['type'] == "sensor"){
             $type = $fields['sensor'];
@@ -165,6 +154,7 @@ else {
 echo json_encode($reply);
 
 
+// help function to find users close to the target area
 function getUserInProximityTo($users, $latTo, $lngTo){
     
     $prox = array();
@@ -190,8 +180,6 @@ function getUserInProximityTo($users, $latTo, $lngTo){
     
     ksort($prox);
     $closest = min(array_keys($prox)); 
-    
-    //echo '<pre>'; print_r($prox); echo '</pre>';
     
     while($radius <= $max_radius){
         $in_prox = array();

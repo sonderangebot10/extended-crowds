@@ -11,6 +11,7 @@ class EasyPoints implements RewardInterface{
     
     public function addPay($id, $pay){
         
+				// if pay is 0 only 1 provider was available, pay with its bid
         if($pay == 0){
             $pay = $this->dbc->getUserFields($id, array("bid"))["bid"];
         }

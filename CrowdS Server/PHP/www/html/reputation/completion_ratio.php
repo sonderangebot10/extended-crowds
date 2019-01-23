@@ -1,10 +1,8 @@
 <?php
 
-define('REPUTATION_MIN', 10);
-/*
-$task_data['participants'] = "0:johan362@hotmail.com";
-$task_data['members'] = "villeg@kth.se;johan362@hotmail.com";
-*/
+// the number of tasks needed before calculating reputation
+define('REPUTATION_MIN', 20);
+
 
 class CompletionRatio implements ReputationInterface{
     
@@ -14,6 +12,8 @@ class CompletionRatio implements ReputationInterface{
     private $dbc;
     
     public function __construct($task_data){
+			
+				// parse task data
         $this->participants = explode(';', $task_data['participants']);
         $this->members = explode(';', $task_data['members']);
         
@@ -69,6 +69,8 @@ class CompletionRatio implements ReputationInterface{
         }
 
     }
+		
+		// update reputation for all participants
     public function updateReputation(){
         foreach($this->reputation as $key => $val){
             $this->dbc->updateUser($key, array("`reputation`"), array("'$val'"));

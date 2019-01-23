@@ -1,6 +1,6 @@
 <?php
     define('ROOT_PATH', dirname(__DIR__) . '/');
-    define('PHP_URL', 'http://217.211.176.94:1212');
+    define('PHP_URL', 'http://130.229.136.167:8000');
     define('FIREBASE_API_KEY', 'AAAAi_AEfJM:APA91bHfYvAFqbc_U42hx-NADaR3iwTfVdPwkicTDDEdDYWHOd0eU-ssxJuRfWaBXEdrSiIoPbz13l_wFNqcr3JWeSrS7hsxn7hK7QzVVPjlL6j93qQP-ZHjOxNLSpZORsAkqd3hwEqj');
     define('DB_PATH', ROOT_PATH . 'html/database/');
     define('QC_PATH', ROOT_PATH . 'html/quality_control/');

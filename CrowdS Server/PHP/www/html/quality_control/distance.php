@@ -13,6 +13,7 @@ class Distance implements QualityControlInterface{
     private $mean;
      
     public function __construct($task_data){
+				// parse task data
         $this->participants = explode(';', $task_data['participants']);
         $this->task_id = $task_data['id'];
         $this->task_type = $task_data['type'];
@@ -23,6 +24,7 @@ class Distance implements QualityControlInterface{
         $this->dbc->connect();
     }
     
+		// will return 1 if anyone participated 
     public function anyoneParticipated(){
         return $this->participants;
     }

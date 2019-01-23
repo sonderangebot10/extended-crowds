@@ -8,13 +8,7 @@ include("system_utils.php");
 include(constant('REP'));
 include(constant('REW'));
 
-/*
-$id = "572";
-$file = "numeric.php";
-$type = "hit";
-$task_type = "numeric";
-*/
-
+// file called by at command
 // get id, file and type from args
 
 $id = $argv[1];

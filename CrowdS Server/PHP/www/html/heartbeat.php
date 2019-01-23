@@ -29,6 +29,6 @@ $firebase->send($fb, $json);
 // check the heartbeat in the future
 $future = date('H:i', strtotime("+ ".HB_CHECK_TIME));
 
-exec("echo 'php /var/www/html/heartbeat_check.php ".$id."' | at ".$future." 2>&1");
+exec("echo 'php ".ROOT_PATH."html/heartbeat_check.php ".$id."' | at ".$future." 2>&1");
 
 ?>

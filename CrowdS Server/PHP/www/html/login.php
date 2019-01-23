@@ -5,16 +5,6 @@ include("database.php");
 $dbc = new DatabaseController();
 $dbc->connect();
 
-/*
-$id = "villeg@kth.se";
-$password = "12321";
-$firebase = "bo0IcGLfvpX8LCRwhecEThckt0qkk0qRfJZLrtmYobMSOFRjUKBhWZi5MgTTnGLtAVPd4M9nbZFnTWT1HnoHxULcSdd6bQGNgWvwfOkhK9ijbDkTBROi2BixGLLnN7lp";
-
-$lng = "17.950315";
-$lat = "59.405388";
-$os = "android";
-$device_version = "0.004";
-*/
 // sent from mobile app
 $id = $dbc->escapeString($_POST["email"]);
 $password = $dbc->escapeString($_POST["password"]);
@@ -22,6 +12,8 @@ $firebase = $dbc->escapeString($_POST["firebase"]);
 
 $admin = $dbc->getUserFields($id, array("admin"))["admin"];
 
+// allow users with admin permision to login during maintenance
+// sent an error message back to everyone else with the remaining time
 if(MAINTENANCE && $admin == 0){
     
     $finish_at = strtotime(MAINTENANCE_TIME);
@@ -41,7 +33,7 @@ $lng = $dbc->escapeString($_POST["lng"]);
 $os = $dbc->escapeString($_POST["os"]);
 $device_version = $dbc->escapeString($_POST["version"]);    
 
-
+// get server version for the same operating system as the device
 if($os == "ios"){
     $server_version = IOS_VERSION;
 }
@@ -60,13 +52,15 @@ if(!$registered){
 else{
     // only let the device login in it has the correct version
     if($server_version == $device_version){
-        // create heartbeat in the future
+			
+        // schedule a heartbeat in the future using 'at' commands,
+				// to check if the user is still connected to the system or offline
         $future = date('H:i', strtotime("+".HB_TIME));
-        
-        $atjob = exec("echo 'php /var/www/html/heartbeat.php ".$id."' | at ".$future." 2>&1");
+        $atjob = exec("echo 'php ".ROOT_PATH."html/heartbeat.php ".$id."' | at ".$future." 2>&1");
         $at = explode(" ", $atjob);
         $atid = $at[1];
         
+				// get old heartbeat info from database
         $heartbeat = $dbc->getUserFields($id, array("heartbeat"))["heartbeat"];
         list($old_id, $timestamp) = explode(":", $heartbeat);
         
@@ -95,7 +89,7 @@ else{
         }
         else{
             $reply = array('status' => "ERROR", 
-                           'reason' => "UNKOWN OS");
+                           'reason' => "UNKNOWN OS");
         }
 
     }

@@ -21,6 +21,7 @@ $push->setTitle($title);
 $push->setMessage($message);
 $push->setIsBackground(FALSE);
 
+// forcefully logout all active users, notify them through firebase
 for($i = 0; $i < count($active); $i++) {
     $push->setPayload($payload);
     $json = $push->getPush();

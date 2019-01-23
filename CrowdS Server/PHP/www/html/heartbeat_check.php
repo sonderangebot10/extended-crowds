@@ -16,7 +16,7 @@ if($hbtime >= $time){
     // create heartbeat in the future
     $future = date('H:i', strtotime("+".HB_TIME));
 
-    exec("echo 'php /var/www/html/heartbeat.php ".$id."' | at ".$future." 2>&1");
+    exec("echo 'php ".ROOT_PATH."html/heartbeat.php ".$id."' | at ".$future." 2>&1");
 }
 else{
     $dbc->updateUser($id, array("active"), array("0"));

@@ -4,13 +4,13 @@ include(dirname(__DIR__) . '/' ."interfaces.php");
 class MySQL implements DatabaseInterface {
     private $server = 'localhost';
     private $username = 'root';
-    private $password = 'bozzob';
+    private $password = 'test1';
     private $database = 'cs';
     private $conn;
     private $db_errors = 
-        array('connect' => "Failed to connect to MySQL",
-              'disconnect' => "Failed to diconnect from MySQL",
-              'query' => "Failed to query MySQL: ");
+        array('connect' => " Failed to connect to MySQL, ",
+              'disconnect' => " Failed to diconnect from MySQL ",
+              'query' => ", Failed to query MySQL ");
     
     public function connect(){
         $this->conn = mysqli_connect($this->server,$this->username,$this->password,$this->database);

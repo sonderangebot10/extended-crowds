@@ -11,6 +11,7 @@ class Sensor implements TaskOngoingInterface {
         $this->dbc->connect();
     }
     
+		// returns an array with all ongoing sensor tasks
     public function getOngoingTasks(){
         
         $user = $this->dbc->getUserFields($this->email, array("sensing_created"));

@@ -11,6 +11,7 @@ class Hit implements TaskOngoingInterface {
         $this->dbc->connect();
     }
     
+		// returns an array with all ongoing hit tasks for user
     public function getOngoingTasks(){
         
         $user = $this->dbc->getUserFields($this->email, array("hits_created"));

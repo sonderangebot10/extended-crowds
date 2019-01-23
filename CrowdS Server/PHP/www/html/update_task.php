@@ -10,17 +10,11 @@ include(constant('REW'));
 $dbc = new DatabaseController();
 $dbc->connect();
 
-/*
-$_POST['id'] = "568:0";
-$_POST['data'] = "0";
-$_POST['email'] = "johan362@hotmail.com";
-$_POST['file'] = "numeric.php";
-$_POST['type'] = "numeric";
-*/
-
+// include the file that handles the update
 $file_path = "task_update/" . $_POST['file'];
 include($file_path);
 
+// get all data from POST
 foreach ($_POST as $key => $value){
     $fields[$key] = $dbc->escapeString($value);
 }
@@ -29,9 +23,11 @@ foreach ($_POST as $key => $value){
 $QC = 'QC_' . strtoupper($_POST['type']);
 include(constant($QC));
 
+// update the task
 $task_updator = getClass($file_path, $fields);
 $task_updator->updateTask();
 
+// if logging is activated
 if(LOG){
     list($log_file,$index) = explode(':',$fields['id']);
     if($task_updator->getType() == "hit"){
@@ -60,17 +56,22 @@ if(LOG){
     }
 }
 
+// if this was the last update to complete the task
 if($task_updator->isCompleted()){
     $task_data = $task_updator->finishTask();
     $task_updator->sendNotification();
     
     $qc = getClass(constant($QC), $task_data);
     
+		// if the task was not auto completed (time ran out)
     if($qc->anyoneParticipated()){
+			
+				// apply the quality control
         $qc->calculateQuality();
         $qc->updateQuality();
         $result = $qc->setTaskResult();
         
+				// get and apply reward management
         $rew = getClass(constant('REW'));
         list($ind,$ids) = explode(':',$fields['id']);
         
@@ -83,6 +84,7 @@ if($task_updator->isCompleted()){
             $task = $dbc->getHumanTaskFields($ids, array("cost"));
         }
         
+				// reward all participants
         $participants = explode(";", $task_data['participants']);
         foreach($participants as $str){
             list($index, $tid) = explode(":", $str);
@@ -91,10 +93,12 @@ if($task_updator->isCompleted()){
 
     }
     
+		// get and apply reward management
     $rep = getClass(constant('REP'), $task_data);
     $rep->calculateReputation();
     $rep->updateReputation();
     
+		// if logging is activated
     if(LOG){
         $participants = explode(";", $task_data['participants']);
         $p = array();
@@ -109,6 +113,7 @@ if($task_updator->isCompleted()){
     }
 }
 
+// if logging is activated
 if(LOG){
     $fp = fopen($log_path, 'w');
     fwrite($fp, json_encode($log,JSON_PRETTY_PRINT));

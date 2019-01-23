@@ -13,6 +13,7 @@ class Numeric implements CreateTaskInterface {
     private $dbc;
     
     public function __construct($fields){
+				// parse fields
         $this->email = $fields["email"];
         $this->description = $fields["description"];
         $this->cost = $fields["cost"];
@@ -39,7 +40,9 @@ class Numeric implements CreateTaskInterface {
         return $this->last_id;
     }
     
+		// send data back with firebase
     public function sendData($group){
+				// create payload
         $payload = array();
         $payload['type'] = 'hit';  
         $payload['question'] = $this->question;
@@ -64,6 +67,7 @@ class Numeric implements CreateTaskInterface {
         }
     }
     
+		// send notification message about new task
     public function sendNotification($group){
         $title = "New task!";
         $body = "Check the app now!";

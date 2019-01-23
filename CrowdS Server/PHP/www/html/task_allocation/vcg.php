@@ -17,10 +17,13 @@ class VCG implements TaskAllocationInterface{
         return $this->cost;
     }
     
+		// Use a reversed VCG auction to get providers
     public function getUsers(){
         
         $n = count($this->users);
 
+				// if the number of possible providers are less or equal to number needed,
+				// return them all
         if($n <= MAX_DEVICES){
             $this->cost = $this->users[0]['bid'];
             return $this->users;

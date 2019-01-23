@@ -17,7 +17,7 @@ class SingleChoice implements UpdateTaskInterface{
     private $dbc;
     
     public function __construct($fields){
-        
+        // parse fields
         $this->email = $fields['email'];
         $this->data = $fields['data'];
         $this->string = $fields['id'];

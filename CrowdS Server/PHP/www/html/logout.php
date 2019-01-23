@@ -5,13 +5,12 @@ include_once("database.php");
 $dbc = new DatabaseController();
 $dbc->connect();
 
-//$id = "jowalle@kth.se";
-
 // id is sent from the mobile app
 $id = $dbc->escapeString($_POST["email"]);
 
 $heartbeat = $dbc->getUserFields($id, array("heartbeat"))["heartbeat"];
 
+// remove scheduled heartbeats
 list($atid,$timestamp) = explode(":", $heartbeat);
 exec("atrm ".$atid." 2>&1");
 
