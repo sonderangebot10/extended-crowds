@@ -3,23 +3,20 @@ package service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import app.Config;
 
 
-public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
-    private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
+public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
 
     @Override
-    public void onTokenRefresh() {
-        super.onTokenRefresh();
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-
+    public void onNewToken(@NonNull String refreshedToken) {
+        super.onNewToken(refreshedToken);
         // Saving reg id to shared preferences
         storeRegIdInPref(refreshedToken);
 

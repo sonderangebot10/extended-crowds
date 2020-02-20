@@ -2,8 +2,8 @@ package fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.util.Log;
+import androidx.annotation.IdRes;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +110,8 @@ public class CreateHITFragment extends android.app.Fragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 RadioButton rb = (RadioButton) radioGroup.findViewById(i);
-                lastChecked = rb.getId() - 1;
+                int radioButtonId = rb.getId();
+                lastChecked = radioButtonId - 1;
         //        SystemUtils.displayToast(getActivity(), String.valueOf(lastChecked));
             }
         });

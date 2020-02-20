@@ -10,11 +10,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.content.SharedPreferencesCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -27,21 +26,16 @@ import com.example.johan_dp8ahsz.cs.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 import activity.MainActivity;
 import app.Config;
 import fragment.AssignedTaskFragment;
-import util.CustomListViewAdapter;
 import util.CustomRequest;
-import util.GPSTracker;
 import util.NotificationUtils;
-import util.SystemUtils;
 import util.WakefulReceiver;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -192,7 +186,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // Aquire a wakelock so that we can respond if idle
                 PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                 PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                        "MyWakelockTag");
+                        "HEARTBEAT:MyWakelockTag");
                 wakeLock.acquire();
 
                 // Only answer heartbeats if you are online
