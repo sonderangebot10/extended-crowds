@@ -164,18 +164,18 @@
 
     <!-- URLS used in the application -->
 
-    <string name="UPDATE_URL">http://130.229.136.167:8000/update_user.php</string>
-    <string name="DELETE_URL">http://130.229.136.167:8000//delete_user.php</string>
-    <string name="RESTORE_URL">http://130.229.136.167:8000/restore_password.php</string>
-    <string name="LOGIN_URL">http://130.229.136.167:8000/login.php</string>
-    <string name="LOGOUT_URL">http://130.229.136.167:8000/logout.php</string>
-    <string name="REGISTER_URL">http://130.229.136.167:8000/register_user.php</string>
-    <string name="CREATE_TASK_URL">http://130.229.136.167:8000/create_task.php</string>
-    <string name="UPDATE_TASK_URL">http://130.229.136.167:8000/update_task.php</string>
-    <string name="TASK_HISTORY_URL">http://130.229.136.167:8000/task_history.php</string>
-    <string name="REWARD_URL">http://130.229.136.167:8000/reward.php</string>
-    <string name="HEARTBEAT_URL">http://130.229.136.167:8000/heartbeat_update.php</string>
-    <string name="ONGOING_URL">http://130.229.136.167:8000/ongoing_task.php</string>
-    <string name="POSITIONS_URL">http://130.229.136.167:8000/positions.php</string>
+    <string name="UPDATE_URL">http://192.168.0.106:8000/update_user.php</string>
+    <string name="DELETE_URL">http://192.168.0.106:8000//delete_user.php</string>
+    <string name="RESTORE_URL">http://192.168.0.106:8000/restore_password.php</string>
+    <string name="LOGIN_URL">http://192.168.0.106:8000/login.php</string>
+    <string name="LOGOUT_URL">http://192.168.0.106:8000/logout.php</string>
+    <string name="REGISTER_URL">http://192.168.0.106:8000/register_user.php</string>
+    <string name="CREATE_TASK_URL">http://192.168.0.106:8000/create_task.php</string>
+    <string name="UPDATE_TASK_URL">http://192.168.0.106:8000/update_task.php</string>
+    <string name="TASK_HISTORY_URL">http://192.168.0.106:8000/task_history.php</string>
+    <string name="REWARD_URL">http://192.168.0.106:8000/reward.php</string>
+    <string name="HEARTBEAT_URL">http://192.168.0.106:8000/heartbeat_update.php</string>
+    <string name="ONGOING_URL">http://192.168.0.106:8000/ongoing_task.php</string>
+    <string name="POSITIONS_URL">http://192.168.0.106:8000/positions.php</string>
 
 </resources>
