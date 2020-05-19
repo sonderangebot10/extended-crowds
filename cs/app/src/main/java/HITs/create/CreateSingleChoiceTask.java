@@ -129,7 +129,7 @@ public class CreateSingleChoiceTask implements CreateHITInterface, OnMapReadyCal
         optionFields = new LinkedList<>();
 
         positions = new ArrayList<>();
-        if(Config.SHOW_USERS_ON_MAP == true) getPositions();
+        if(Config.SHOW_USERS_ON_MAP) getPositions();
 
 
         // Change the toolbar title to something appropriate.

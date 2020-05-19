@@ -125,7 +125,7 @@ public class CreateSensingFragment extends android.app.Fragment
         queue = Volley.newRequestQueue(getActivity());
 
         positions = new ArrayList<>();
-        if(Config.SHOW_USERS_ON_MAP == true) getPositions();
+        if(Config.SHOW_USERS_ON_MAP) getPositions();
 
         // get available sensors and populate the list view
         ArrayList<String> mySensors = SystemUtils.readSensorTypesList(getActivity());
