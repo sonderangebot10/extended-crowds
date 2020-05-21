@@ -33,6 +33,7 @@
         <item>Device Information</item>
         <item>Account management</item>
         <item>Reward</item>
+        <item>Connected Devices</item>
         <item>Log out</item>
     </string-array>
     <string-array name="list_subitems">
@@ -43,6 +44,7 @@
         <item>View your device information</item>
         <item>Manage your account</item>
         <item>See how many virtual points you have earned</item>
+        <item>See Bluetooth devices connected to this phone</item>
         <item>Log out from your account</item>
     </string-array>
 

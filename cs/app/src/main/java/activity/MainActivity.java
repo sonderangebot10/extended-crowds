@@ -41,6 +41,7 @@ import java.util.HashMap;
 import app.Config;
 import fragment.AccountManagementFragment;
 import fragment.AssignedTaskFragment;
+import fragment.ConnectedBluetoothDevicesFragment;
 import fragment.CreateTaskFragment;
 import fragment.DeviceInfoFragment;
 import fragment.OngoingTasksFragment;
@@ -125,14 +126,16 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 // close any open keyboards
                 InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
+                View view = getCurrentFocus();
+                if (view != null && imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 super.onDrawerOpened(drawerView);
             }
         };
 
         // Setting drawer listener
-        drawer.setDrawerListener(actionbarToggle);
+        drawer.addDrawerListener(actionbarToggle);
 
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
     void populateListItems() {
                 Integer Icons[] = { R.drawable.assigned_task_icon, R.drawable.create_task_icon,
                         R.drawable.ongoing_icon,R.drawable.task_history_icon, R.drawable.device_info_icon,
-                        R.drawable.account_icon, R.drawable.reward_icon, R.drawable.logoff_icon};
+                        R.drawable.account_icon, R.drawable.reward_icon, R.drawable.bluetooth_icon, R.drawable.logoff_icon};
         String title[] = getResources().getStringArray(R.array.list_items);
         String subtitle[] = getResources().getStringArray(R.array.list_subitems);
 
@@ -207,7 +210,10 @@ public class MainActivity extends AppCompatActivity {
             case 6:
                 replaceFragment(new RewardFragment(), "Reward Management", position);
                 break;
-            case 7: // log out
+            case 7:
+                replaceFragment(new ConnectedBluetoothDevicesFragment(), "Bluetooth Management", position);
+                break;
+            case 8: // log out
                 // Tell the server that you are logging off
                 HashMap<String, String> params = new HashMap<>();
                 params.put("email", prefs.getString("email", ""));
