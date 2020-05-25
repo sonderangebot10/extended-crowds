@@ -65,7 +65,7 @@ public class RewardFragment extends Fragment {
         //fetch points from server
         SystemUtils.showProgress(true, getActivity(), mProgressView, mRewardFormView);
         HashMap<String, String> params = new HashMap<>();
-        params.put("email", prefs.getString("email", "shit"));
+        params.put("email", prefs.getString("email", "default@mail.com"));
 
         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, REWARD_URL,
                 params, new Response.Listener<JSONObject>() {

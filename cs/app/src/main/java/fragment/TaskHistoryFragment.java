@@ -79,7 +79,7 @@ public class TaskHistoryFragment extends android.app.Fragment {
         //fetch data from server
         SystemUtils.showProgress(true, getActivity(), mProgressView, mHistoryFormView);
         HashMap<String, String> params = new HashMap<>();
-        params.put("email", prefs.getString("email", "shit"));
+        params.put("email", prefs.getString("email", "default@mail.com"));
 
         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, TASK_HISTORY_URL,
                 params, new Response.Listener<JSONObject>() {

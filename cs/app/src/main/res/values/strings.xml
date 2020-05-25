@@ -163,6 +163,9 @@
     <!-- Ongoing tasks -->
     <string name="ongoing_tasks">Ongoing tasks</string>
 
+    <!-- Connected Bluetooth devices -->
+    <string name="init_bluetooth_server_socket_label">Open socket for connection</string>
+
 
     <!-- URLS used in the application -->
 
@@ -179,5 +182,7 @@
     <string name="HEARTBEAT_URL">http://192.168.0.106:8000/heartbeat_update.php</string>
     <string name="ONGOING_URL">http://192.168.0.106:8000/ongoing_task.php</string>
     <string name="POSITIONS_URL">http://192.168.0.106:8000/positions.php</string>
+
+    <string name="UUID_FOR_BLUETOOTH_SOCKET">e1ce069e-55f5-4b39-99d5-a7f2a0cd7267</string>
 
 </resources>

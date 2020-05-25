@@ -217,7 +217,7 @@ public class CreateMultipleChoiceTask implements CreateHITInterface, OnMapReadyC
 
                     SystemUtils.showProgress(true, context, mProgressView, mCreateHitForm);
                     HashMap<String, String> params = new HashMap<>();
-                    params.put("email", prefs.getString("email", "shit"));
+                    params.put("email", prefs.getString("email", "default@mail.com"));
                     params.put("type", "hit");
                     params.put("hit_type", "multiple");
                     params.put("description", "empty");
@@ -418,7 +418,7 @@ public class CreateMultipleChoiceTask implements CreateHITInterface, OnMapReadyC
 
         SystemUtils.showProgress(true, context, mProgressView, mCreateHitForm);
         HashMap<String, String> params = new HashMap<>();
-        params.put("email", prefs.getString("email", "shit"));
+        params.put("email", prefs.getString("email", "default@mail.com"));
 
         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, POSITIONS_URL,
                 params, new Response.Listener<JSONObject>() {

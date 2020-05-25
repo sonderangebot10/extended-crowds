@@ -198,7 +198,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      //               GPSTracker gps = new GPSTracker(getApplicationContext());
 
                     HashMap<String, String> params = new HashMap<>();
-                    params.put("email", prefs.getString("email", "shit"));
+                    params.put("email", prefs.getString("email", "default@mail.com"));
    //                 params.put("lat", String.valueOf( gps.getLatitude()));
      //               params.put("lng", String.valueOf( gps.getLongitude()));
 

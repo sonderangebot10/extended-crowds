@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -37,20 +39,23 @@ public class BluetoothServiceImpl implements BluetoothService {
 
     private static final String NAME = "RiskSituationDetection";
     private static final String TAG = BluetoothServiceImpl.class.getName();
-    private static final UUID MY_UUID = UUID.fromString("e1ce069e-55f5-4b39-99d5-a7f2a0cd7267");
     private static final int REQUEST_ENABLE_BT = 1;
     private static final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private Activity activity;
-    private AcceptThread bluetoothServerConnection = new AcceptThread();
+    private AcceptThread bluetoothServerConnection;
     private ConnectedThread connectedThread;
     private String CREATE_TASK_URL;
+    private UUID MY_UUID;
     private RequestQueue queue;
+    private SharedPreferences prefs;
 
     public BluetoothServiceImpl(Activity activity) {
 
         this.activity = activity;
         this.CREATE_TASK_URL = this.activity.getApplicationContext().getString(R.string.CREATE_TASK_URL);
+        this.MY_UUID = UUID.fromString(this.activity.getApplicationContext().getString(R.string.UUID_FOR_BLUETOOTH_SOCKET));
         this.queue = Volley.newRequestQueue(activity.getApplicationContext());
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
     @Override
@@ -69,7 +74,6 @@ public class BluetoothServiceImpl implements BluetoothService {
     @Override
     public Set<BluetoothDevice> findPairedDevices() {
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-        // 00:B5:D0:5C:A3:7A
         if (pairedDevices.size() > 0) {
             // There are paired devices. Get the name and address of each paired device.
             for (BluetoothDevice device : pairedDevices) {
@@ -77,7 +81,6 @@ public class BluetoothServiceImpl implements BluetoothService {
                 String deviceHardwareAddress = device.getAddress(); // MAC address
             }
         }
-        ;
 
         bluetoothAdapter.cancelDiscovery();
 
@@ -98,6 +101,10 @@ public class BluetoothServiceImpl implements BluetoothService {
 
     @Override
     public void createBluetoothServerConnection() {
+        if (bluetoothServerConnection != null) {
+            bluetoothServerConnection.cancel();
+        }
+        bluetoothServerConnection = new AcceptThread();
         bluetoothServerConnection.start();
     }
 
@@ -237,7 +244,7 @@ public class BluetoothServiceImpl implements BluetoothService {
                         Log.d(TAG, "Read data: " + readMessage);
 
                         HashMap<String, String> params = new HashMap<>();
-                        params.put("email", "default@mail.com");
+                        params.put("email", prefs.getString("email", "default@mail.com"));
                         params.put("type", "hit");
                         params.put("hit_type", "single");
                         params.put("description", "empty");

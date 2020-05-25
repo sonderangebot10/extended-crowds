@@ -36,4 +36,11 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/init_bluetooth_server_socket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/init_bluetooth_server_socket_label"
+        android:layout_centerVertical="true"/>
 </LinearLayout>

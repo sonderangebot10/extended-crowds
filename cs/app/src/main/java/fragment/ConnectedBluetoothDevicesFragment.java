@@ -1,53 +1,55 @@
 package fragment;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
+import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.example.johan_dp8ahsz.cs.R;
 
-import java.util.HashMap;
+import java.util.Optional;
+import java.util.Set;
 
-import app.Config;
+import interfaces.BluetoothService;
+import service.BluetoothServiceImpl;
 
 
 public class ConnectedBluetoothDevicesFragment extends Fragment {
 
-    private final String TAG = "BLUETOOTH_DEVICES_FRAG";
-    private final int DELAY = Config.DELAY;
+    private static final String TAG = "BLUETOOTH_DEVICES_FRAG";
+    private static final String SMART_WATCH_MAC_ADDRESS = "00:B5:D0:5C:A3:7A";
 
-    // UI References
-    TextView rewardHITText;
-    TextView rewardSensorText;
-    View mProgressView;
-    View mRewardFormView;
+    private BluetoothService bluetoothService;
+    private Button openBluetoothServerSocket;
+    private TextView deviceName;
 
-    // Networking
-    private RequestQueue queue;
-    private String REWARD_URL;
-    private boolean connected = false;
-
-    private SharedPreferences prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bluetooth_devices, container, false);
+        openBluetoothServerSocket = (Button) view.findViewById(R.id.init_bluetooth_server_socket);
+        deviceName = view.findViewById(R.id.bluetooth_device_name);
 
-        queue = Volley.newRequestQueue(getActivity());
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        bluetoothService = new BluetoothServiceImpl(getActivity());
 
-        HashMap<String, String> params = new HashMap<>();
-        params.put("email", prefs.getString("email", "shit"));
+        Set<BluetoothDevice> pairedDevices = bluetoothService.findPairedDevices();
+        pairedDevices.stream()
+                .filter(d -> d.getAddress().equals(SMART_WATCH_MAC_ADDRESS)).findFirst()
+                .ifPresent(device -> deviceName.setText(device.getName()));
+
+        openBluetoothServerSocket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bluetoothService.createBluetoothServerConnection();
+            }
+        });
+
 
         return view;
     }
-
 }

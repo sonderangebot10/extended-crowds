@@ -353,7 +353,7 @@ public class CreateSensingFragment extends android.app.Fragment
 
         SystemUtils.showProgress(true, getActivity(), mProgressView, mSensingFormView);
         HashMap<String, String> params = new HashMap<>();
-        params.put("email", prefs.getString("email", "shit"));
+        params.put("email", prefs.getString("email", "default@mail.com"));
 
         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, POSITIONS_URL,
                 params, new Response.Listener<JSONObject>() {

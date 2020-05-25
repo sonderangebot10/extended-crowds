@@ -222,7 +222,7 @@ public class CreateSingleChoiceTask implements CreateHITInterface, OnMapReadyCal
 
                     SystemUtils.showProgress(true, context, mProgressView, mCreateHitForm);
                     HashMap<String, String> params = new HashMap<>();
-                    params.put("email", prefs.getString("email", "shit"));
+                    params.put("email", prefs.getString("email", "default@mail.com"));
                     params.put("type", "hit");
                     params.put("hit_type", "single");
                     params.put("description", "empty");
@@ -419,7 +419,7 @@ public class CreateSingleChoiceTask implements CreateHITInterface, OnMapReadyCal
 
         SystemUtils.showProgress(true, context, mProgressView, mCreateHitForm);
         HashMap<String, String> params = new HashMap<>();
-        params.put("email", prefs.getString("email", "shit"));
+        params.put("email", prefs.getString("email", "default@mail.com"));
 
         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, POSITIONS_URL,
                 params, new Response.Listener<JSONObject>() {
