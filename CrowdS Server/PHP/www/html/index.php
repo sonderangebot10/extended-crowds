@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <title>CS Project</title>
@@ -71,11 +75,10 @@ span.psw {
 </form>
     
 <?php
-    session_start();
-    if(isset($_SESSION['errors']) && !isset($_SESSION['login_user'])){
-        $error = $_SESSION['errors'];
-       echo "<div class='w3-margin w3-text-red w3-center w3-jumbo'>" . $error . "</div>";
-    }
+if(isset($_SESSION['errors']) && !isset($_SESSION['login_user'])){
+    $error = $_SESSION['errors'];
+   echo "<div class='w3-margin w3-text-red w3-center w3-jumbo'>" . $error . "</div>";
+}
 ?>
 
 </body>

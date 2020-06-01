@@ -2,17 +2,25 @@
 include(dirname(__DIR__) . '/' ."interfaces.php");
     
 class MySQL implements DatabaseInterface {
-    private $server = 'localhost';
-    private $username = 'root';
-    private $password = 'test1';
-    private $database = 'cs';
+    private $server;
+    private $username;
+    private $password;
+    private $database;
     private $conn;
     private $db_errors = 
         array('connect' => " Failed to connect to MySQL, ",
-              'disconnect' => " Failed to diconnect from MySQL ",
+              'disconnect' => " Failed to disconnect from MySQL ",
               'query' => ", Failed to query MySQL ");
+
+    function __construct() {
+        $this->server = $_ENV["DB_URL"];
+        $this->username = $_ENV["DB_USERNAME"];
+        $this->password = $_ENV["DB_PASSWORD"];
+        $this->database = $_ENV["DB_NAME"];
+    }
     
     public function connect(){
+
         $this->conn = mysqli_connect($this->server,$this->username,$this->password,$this->database);
         if(mysqli_connect_errno()) echo $this->db_errors['connect'] . mysqli_connect_error();
     }
@@ -84,7 +92,7 @@ class MySQL implements DatabaseInterface {
         // set autocommit to off
         mysqli_autocommit($this->conn,FALSE);
 
-        // insert some values 
+        // insert some values
         $this->query($query1);
         $this->query($query2);
         $this->query($query3);
@@ -170,6 +178,7 @@ class MySQL implements DatabaseInterface {
             $id = $users[$i]['email'];
             $query = "SELECT email FROM cs.sensor WHERE email = '$id' AND $sensor = '1'";
             $result = $this->query($query);
+            // what if this result is null?
             if(mysqli_fetch_row($result)[0]){
                 $has_sensor[] = $users[$i];
             }
