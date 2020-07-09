@@ -1,0 +1,54 @@
+version: "3.2"
+services:
+  php:
+    build:
+      context: "./php/"
+      args:
+       PHP_VERSION: "${PHP_VERSION:-7.2.7}"
+    networks:
+      - backend
+    volumes:
+      - /home/docker/crowds/PHP/www/html/:/var/www/html/
+    environment:
+      DB_URL: "${DB_USERNAME:-mysql}"
+      DB_USERNAME: "${DB_USERNAME:-root}"
+      DB_PASSWORD: "${DB_PASSWORD:-root}"
+      DB_NAME: "${DB_NAME:-cs}"
+      FIREBASE_API_KEY: "${FIREBASE_API_KEY:-AAAAJ2m2_kU:APA91bEqZatAMuDgZWp4XXuOFhPHBjRGwHwF7-Syiua87hjnd8prvCc7jd5fXcV9VC3z1vAmjJnpJWnSpS5cH8rOh52FYS9b9r1njN10VKVE55AplX6J-a1CzcNXQHdwMqE0z0jCSpas}"
+      PHP_URL: "${PHP_URL:-http://192.168.0.106:8000}"
+    container_name: php
+  apache:
+    build:
+      context: './apache/'
+      args:
+       APACHE_VERSION: "${APACHE_VERSION:-2.4.33}"
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8100:80"
+    volumes:
+      - /home/docker/crowds/PHP/www/html/:/var/www/html/
+    container_name: apache
+  mysql:
+    image: mysql:${MYSQL_VERSION:-latest}
+    # restart: always
+    ports:
+      - "3308:3306"
+    volumes:
+            - /home/docker/crowds/MySQL/data:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-root}"
+      MYSQL_DATABASE: "${DB_NAME:-cs}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    command: "--innodb_use_native_aio=0"
+    container_name: mysql
+networks:
+  frontend:
+  backend:
