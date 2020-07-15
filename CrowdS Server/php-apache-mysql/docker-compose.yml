@@ -8,7 +8,7 @@ services:
     networks:
       - backend
     volumes:
-      - /home/docker/crowds/PHP/www/html/:/var/www/html/
+      - "/home/docker/crowds/PHP/www/html/:/var/www/html/"
     environment:
       DB_URL: "${DB_USERNAME:-mysql}"
       DB_USERNAME: "${DB_USERNAME:-root}"
@@ -31,7 +31,7 @@ services:
     ports:
       - "8100:80"
     volumes:
-      - /home/docker/crowds/PHP/www/html/:/var/www/html/
+      - "/home/docker/crowds/PHP/www/html/:/var/www/html/"
     container_name: apache
   mysql:
     image: mysql:${MYSQL_VERSION:-latest}
@@ -39,7 +39,8 @@ services:
     ports:
       - "3308:3306"
     volumes:
-            - /home/docker/crowds/MySQL/data:/var/lib/mysql
+      - "/home/docker/crowds/MySQL/data:/var/lib/mysql"
+      - "/home/docker/crowds/MySQL/docker-entrypoint-initdb:/docker-entrypoint-initdb.d/"
     networks:
       - backend
     environment:
