@@ -18,6 +18,9 @@ $closest = 0;
 $dbc = new DatabaseController();
 $dbc->connect();
 
+// OS
+$os = getOSName();
+
 $file_path = "task_creation/" . $_POST['file'];
 include($file_path);
 
@@ -38,7 +41,7 @@ for($i = 0; $i < count($active); $i++){
     }
 }
 
-// filter away uses without required sensor if its a sensor task
+// filter away users without required sensor if its a sensor task
 if($fields['type'] == "sensor"){
     $active = $dbc->filterUsersWithSensor($active, $fields['sensor']);
 }
@@ -89,15 +92,28 @@ else {
     $id = $task_creator->insertTask($users);
     $task_creator->sendData($users);
     
-		// schedule to finish the task if it was not completed within the timeframe
+    // schedule to finish the task if it was not completed within the timeframe
+    $taskid = uniqid($id);
     if($fields['type'] == "sensor"){
         $time = $fields['duration'] + TTL_SENSOR;
         $future = date('H:i', strtotime("+".$time." minutes"));
-        exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."' | at ".$future." 2>&1");
+        if ($os === "Windows") {
+            exec("schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\\finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."\" 2>&1");
+        } else if ($os === "Linux") {
+            exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."' | at ".$future." 2>&1");
+        } else {
+            error_log("Cannot execute heartbeat due to unsupported OS.");
+        }
     }
-    else{
+    else {
         $future = date('H:i', strtotime("+ ".TTL_HIT." minutes"));
-        exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."' | at ".$future." 2>&1");
+        if ($os === "Windows") {
+            exec("schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\\finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."\" 2>&1");
+        } else if ($os === "Linux") {
+            exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."' | at ".$future." 2>&1");
+        } else {
+            error_log("Cannot execute heartbeat due to unsupported OS.");
+        }
         $task_creator->sendNotification($users);
     }
     

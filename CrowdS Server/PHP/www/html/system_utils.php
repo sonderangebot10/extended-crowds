@@ -32,5 +32,21 @@ function getClass($file, $args = array()){
     }   
 }
 
+function startsWith ($string, $startString)
+{
+    $len = strlen($startString);
+    return (substr($string, 0, $len) === $startString);
+}
+
+function getOSName ()
+{
+    if (startsWith(php_uname(), "Windows")) {
+        return "Windows";
+    } else if (startsWith(php_uname(), "Linux")) {
+        return "Linux";
+    } else {
+        return "Unsupported";
+    }
+}
 
 ?>

@@ -1,6 +1,9 @@
 <?php
 include("config.php");
 include("database.php");
+include("system_utils.php");
+
+$current_os = getOSName();
 
 $dbc = new DatabaseController();
 $dbc->connect();
@@ -50,24 +53,47 @@ if(!$registered){
 }
 
 else{
-    // only let the device login in it has the correct version
+    // only let the device login if it has the correct version
     if($server_version == $device_version){
 			
         // schedule a heartbeat in the future using 'at' commands,
 				// to check if the user is still connected to the system or offline
         $future = date('H:i', strtotime("+".HB_TIME));
-        $atjob = exec("echo 'php ".ROOT_PATH."html/heartbeat.php ".$id."' | at ".$future." 2>&1");
+        $taskid = uniqid($id);
+
+        $os = getOSName();
+        $initheartbeatcommand = "";
+        $deletetaskcommand = "";
+        if ($os === "Windows") {
+            $initheartbeatcommand = "schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\heartbeat_check.php ".$id."\" 2>&1";
+        } else if ($os === "Linux") {
+            $initheartbeatcommand = "echo 'php ".ROOT_PATH."html/heartbeat.php ".$id."' | at ".$future." 2>&1";
+        } else {
+            error_log("Unsupported OS.");
+        }
+        error_log("Init heartbeat: " . $initheartbeatcommand);
+        $atjob = exec($initheartbeatcommand);
         $at = explode(" ", $atjob);
         $atid = $at[1];
+        error_log("atid: " . $atid);
         
-				// get old heartbeat info from database
+		// get old heartbeat info from database
         $heartbeat = $dbc->getUserFields($id, array("heartbeat"))["heartbeat"];
         list($old_id, $timestamp) = explode(":", $heartbeat);
         
         $timestamp = strtotime("now");
-        
-        exec("atrm ".$old_id." 2>&1");
-        $hb = $atid.':'.$timestamp;
+
+        $deletetaskcommand = "";
+        if ($os === "Windows") {
+            $deletetaskcommand = "schtasks.exe /Delete /tn ".$old_id." /f 2>&1";
+        } else if ($os === "Linux") {
+            $deletetaskcommand = "atrm ".$old_id." 2>&1";
+        } else {
+            error_log("Unsupported OS.");
+        }
+        error_log("Delete command: " . $initheartbeatcommand);
+        exec($deletetaskcommand);
+        $hb = $taskid.':'.$timestamp;
         
         // update login time and coordinates
         $dbc->updateUser($id, array("login_time", "latitude", "longitude", "firebase", "heartbeat", "active"), array("NOW()", "'$lat'", "'$lng'", "'$firebase'", "'$hb'", "1"));   
@@ -85,7 +111,7 @@ else{
 
             // create reply message	
             $reply = array('status' => "OK",
-                'username' =>$username);	
+                'username' =>$username);
         }
         else{
             $reply = array('status' => "ERROR", 
