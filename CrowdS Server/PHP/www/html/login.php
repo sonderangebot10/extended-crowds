@@ -63,11 +63,10 @@ else{
 
         $os = getOSName();
         $initheartbeatcommand = "";
-        $deletetaskcommand = "";
         if ($os === "Windows") {
             $initheartbeatcommand = "schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\heartbeat_check.php ".$id."\" 2>&1";
         } else if ($os === "Linux") {
-            $initheartbeatcommand = "echo 'php ".ROOT_PATH."html/heartbeat.php ".$id."' | at ".$future." 2>&1";
+            $initheartbeatcommand = "echo \"php ".ROOT_PATH."html/heartbeat.php ".$id."\" | at ".$future." 2>&1";
         } else {
             error_log("Unsupported OS.");
         }
@@ -91,7 +90,7 @@ else{
         } else {
             error_log("Unsupported OS.");
         }
-        error_log("Delete command: " . $initheartbeatcommand);
+        error_log("Delete command: " . $deletetaskcommand);
         exec($deletetaskcommand);
         $hb = $taskid.':'.$timestamp;
         
