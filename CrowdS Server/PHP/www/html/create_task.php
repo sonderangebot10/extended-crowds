@@ -19,7 +19,7 @@ $dbc = new DatabaseController();
 $dbc->connect();
 
 // OS
-$os = getOSName();
+$server_os = getOSName();
 
 $file_path = "task_creation/" . $_POST['file'];
 include($file_path);
@@ -97,9 +97,9 @@ else {
     if($fields['type'] == "sensor"){
         $time = $fields['duration'] + TTL_SENSOR;
         $future = date('H:i', strtotime("+".$time." minutes"));
-        if ($os === "Windows") {
+        if ($server_os === "Windows") {
             exec("schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\\finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."\" 2>&1");
-        } else if ($os === "Linux") {
+        } else if ($server_os === "Linux") {
             exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."' | at ".$future." 2>&1");
         } else {
             error_log("Cannot execute heartbeat due to unsupported OS.");
@@ -107,9 +107,9 @@ else {
     }
     else {
         $future = date('H:i', strtotime("+ ".TTL_HIT." minutes"));
-        if ($os === "Windows") {
+        if ($server_os === "Windows") {
             exec("schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\\finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."\" 2>&1");
-        } else if ($os === "Linux") {
+        } else if ($server_os === "Linux") {
             exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."' | at ".$future." 2>&1");
         } else {
             error_log("Cannot execute heartbeat due to unsupported OS.");
