@@ -242,6 +242,9 @@ public class BluetoothServiceImpl implements BluetoothService {
                     String readMessage = new String(targetArray);
                     if (!readMessage.isEmpty()) {
                         Log.d(TAG, "Read data: " + readMessage);
+                        JSONObject reader = new JSONObject(readMessage);
+                        String bluetoothDeviceLat = reader.getString("lat");
+                        String bluetoothDeviceLng = reader.getString("lng");
 
                         HashMap<String, String> params = new HashMap<>();
                         params.put("email", prefs.getString("email", "default@mail.com"));
@@ -249,10 +252,10 @@ public class BluetoothServiceImpl implements BluetoothService {
                         params.put("hit_type", "single");
                         params.put("description", "empty");
                         params.put("question", "Would you help this person?");
-                        params.put("answer_choices", "y;n");
+                        params.put("answer_choices", "yes;no");
                         params.put("file", "single_choice.php");
-                        params.put("lat", "59.34945964097764");
-                        params.put("lng", "18.07227473706007");
+                        params.put("lat", bluetoothDeviceLat);
+                        params.put("lng", bluetoothDeviceLng);
 
                         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, CREATE_TASK_URL,
                                 params, new Response.Listener<JSONObject>() {
@@ -287,7 +290,7 @@ public class BluetoothServiceImpl implements BluetoothService {
 //                            MessageConstants.MESSAGE_READ, numBytes, -1,
 //                            mmBuffer);
 //                    readMsg.sendToTarget();
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
                     break;
                 }
