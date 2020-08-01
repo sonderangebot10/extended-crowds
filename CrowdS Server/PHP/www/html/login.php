@@ -72,7 +72,7 @@ else{
         }
         error_log("Init heartbeat: " . $initheartbeatcommand);
         $atjob = exec($initheartbeatcommand);
-        error_log("Init heartbeat2: " . $initheartbeatcommand);
+        error_log("atjob " . $atjob);
         $at = explode(" ", $atjob);
         $atid = $at[1];
         error_log("atid: " . $atid);
