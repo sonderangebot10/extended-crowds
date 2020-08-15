@@ -41,7 +41,7 @@ if ($server_os === "Windows") {
 } else {
     error_log("Unsupported OS.");
 }
-error_log($command);
+//error_log($command);
 exec($command);
 
 ?>

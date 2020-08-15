@@ -88,7 +88,7 @@ else{
         } else {
             error_log("Unsupported OS.");
         }
-        error_log("Delete command: " . $deletetaskcommand);
+//        error_log("Delete command: " . $deletetaskcommand);
         exec($deletetaskcommand);
         $hb = $taskid.':'.$timestamp;
         
