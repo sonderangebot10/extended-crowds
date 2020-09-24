@@ -1,38 +1,44 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_name_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#454545"
-    android:orientation="vertical"
     android:gravity="center"
-    tools:context="fragment.ConnectedBluetoothDevicesFragment">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/bluetooth_devices_form">
-
-            <TextView
-                android:id="@+id/bluetooth_device_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bluetooth device name: "
-                android:textColor="@color/white"
-                android:textSize="24sp"/>
-
-            <TextView
-                android:id="@+id/bluetooth_device_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="default"
-                android:textColor="@color/white"
-                android:textSize="24sp"/>
-    </LinearLayout>
-    <Button
-        android:id="@+id/init_bluetooth_server_socket"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/bluetooth_devices_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/init_bluetooth_server_socket_label"
-        android:layout_centerVertical="true"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context="fragment.ConnectedBluetoothDevicesFragment">
+
+        <TextView
+            android:id="@+id/bluetooth_device_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth device name: "
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/bluetooth_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="default"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/init_bluetooth_server_socket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/init_bluetooth_server_socket_label" />
+    </LinearLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

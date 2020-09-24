@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.johan_dp8ahsz.cs.R;
 
 import java.util.Optional;
@@ -27,7 +29,6 @@ public class ConnectedBluetoothDevicesFragment extends Fragment {
     private Button openBluetoothServerSocket;
     private TextView deviceName;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,11 +37,7 @@ public class ConnectedBluetoothDevicesFragment extends Fragment {
         deviceName = view.findViewById(R.id.bluetooth_device_name);
 
         bluetoothService = new BluetoothServiceImpl(getActivity());
-
-        Set<BluetoothDevice> pairedDevices = bluetoothService.findPairedDevices();
-        pairedDevices.stream()
-                .filter(d -> d.getAddress().equals(SMART_WATCH_MAC_ADDRESS)).findFirst()
-                .ifPresent(device -> deviceName.setText(device.getName()));
+        setNameOfPairedDevice();
 
         openBluetoothServerSocket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +46,28 @@ public class ConnectedBluetoothDevicesFragment extends Fragment {
             }
         });
 
+        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_name_container);
+        swipeLayout.setOnRefreshListener(() -> {
+            setNameOfPairedDevice();
+            swipeLayout.setRefreshing(false);
+        });
+
 
         return view;
+    }
+
+    private void setNameOfPairedDevice() {
+        BluetoothDevice pairedDevice = getPairedDevice();
+        if (pairedDevice != null) {
+            deviceName.setText(pairedDevice.getName());
+        } else {
+            deviceName.setText("unknown");
+        }
+    }
+
+    private BluetoothDevice getPairedDevice() {
+        Set<BluetoothDevice> pairedDevices = bluetoothService.findPairedDevices();
+        return pairedDevices.stream()
+                .filter(d -> d.getAddress().equals(SMART_WATCH_MAC_ADDRESS)).findFirst().orElse(null);
     }
 }
