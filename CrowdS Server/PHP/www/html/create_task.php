@@ -93,11 +93,11 @@ else {
     $task_creator->sendData($users);
     
     // schedule to finish the task if it was not completed within the timeframe
-    $taskid = uniqid($id);
     if($fields['type'] == "sensor"){
         $time = $fields['duration'] + TTL_SENSOR;
         $future = date('H:i', strtotime("+".$time." minutes"));
         if ($server_os === "Windows") {
+            $taskid = uniqid($id);
             exec("schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\\finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."\" 2>&1");
         } else if ($server_os === "Linux") {
             exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['sensor']."' | at ".$future." 2>&1");
@@ -108,6 +108,7 @@ else {
     else {
         $future = date('H:i', strtotime("+ ".TTL_HIT." minutes"));
         if ($server_os === "Windows") {
+            $taskid = uniqid($id);
             exec("schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\\finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."\" 2>&1");
         } else if ($server_os === "Linux") {
             exec("echo 'php ".ROOT_PATH."html/finish_task.php ".$id." ".$fields['file']." ".$fields['type']." ".$fields['hit_type']."' | at ".$future." 2>&1");

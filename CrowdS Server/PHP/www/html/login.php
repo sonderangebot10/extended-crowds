@@ -59,11 +59,12 @@ else{
         // schedule a heartbeat in the future using 'at' commands,
 				// to check if the user is still connected to the system or offline
         $future = date('H:i', strtotime("+".HB_TIME));
-        $taskid = uniqid($id);
+        $taskid = $id;
 
         $server_os = getOSName();
         $initheartbeatcommand = '';
         if ($server_os === "Windows") {
+            $taskid = uniqid($id);
             $initheartbeatcommand = "schtasks.exe /Create /st ".$future." /tn ".$taskid." /sc ONCE /tr \"php".ROOT_PATH."html\heartbeat_check.php ".$id."\" 2>&1";
         } else if ($server_os === "Linux") {
             $initheartbeatcommand = 'echo "php '.ROOT_PATH.'html/heartbeat.php '.$id.'" | at '.$future.' 2>&1';
