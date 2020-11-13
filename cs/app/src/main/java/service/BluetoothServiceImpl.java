@@ -34,6 +34,7 @@ import java.util.UUID;
 
 import interfaces.BluetoothService;
 import util.CustomRequest;
+import util.GPSTracker;
 
 public class BluetoothServiceImpl implements BluetoothService {
 
@@ -48,6 +49,7 @@ public class BluetoothServiceImpl implements BluetoothService {
     private UUID MY_UUID;
     private RequestQueue queue;
     private SharedPreferences prefs;
+    private GPSTracker gps;
 
     public BluetoothServiceImpl(Activity activity) {
 
@@ -56,6 +58,7 @@ public class BluetoothServiceImpl implements BluetoothService {
         this.MY_UUID = UUID.fromString(this.activity.getApplicationContext().getString(R.string.UUID_FOR_BLUETOOTH_SOCKET));
         this.queue = Volley.newRequestQueue(activity.getApplicationContext());
         this.prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        this.gps = new GPSTracker(activity.getApplicationContext());
     }
 
     @Override
@@ -245,6 +248,12 @@ public class BluetoothServiceImpl implements BluetoothService {
                         JSONObject reader = new JSONObject(readMessage);
                         String bluetoothDeviceLat = reader.getString("lat");
                         String bluetoothDeviceLng = reader.getString("lng");
+                        // In case the Bluetooth device did not provide location for any reason,
+                        //take the location from the phone's GPS
+                        if (bluetoothDeviceLat.equals("NO_COORDINATES")) {
+                            bluetoothDeviceLat = String.valueOf(gps.getLatitude());
+                            bluetoothDeviceLng = String.valueOf(gps.getLongitude());
+                        }
 
                         HashMap<String, String> params = new HashMap<>();
                         params.put("email", prefs.getString("email", "default@mail.com"));
@@ -258,29 +267,19 @@ public class BluetoothServiceImpl implements BluetoothService {
                         params.put("lng", bluetoothDeviceLng);
 
                         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, CREATE_TASK_URL,
-                                params, new Response.Listener<JSONObject>() {
+                                params, response -> {
+                                    try {
+                                        String status = response.getString("status");
+                                        if (status.equals("OK")) { // Everything's ok!
+                                            Log.e(TAG, "Successfully create a task");
+                                        } else { // something went wrong
+                                            Log.e(TAG, response.getString("reason"));
 
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    String status = response.getString("status");
-                                    if (status.equals("OK")) { // Everything's ok!
-                                        Log.e(TAG, "Successfully create a task");
-                                    } else { // something went wrong
-                                        Log.e(TAG, response.getString("reason"));
-
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError response) {
-                                Log.d(TAG + " ERR", response.toString());
-                            }
-                        });
+                                }, response -> Log.d(TAG + " ERR", response.toString()));
                         queue.add(jsObjRequest);
 
 
