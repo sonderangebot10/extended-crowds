@@ -11,7 +11,7 @@
     define('MAX_DEVICES', 1);
 
     // set log 1 to activate
-    define('LOG', 1);
+    define('LOG', 0);
 
     // set maintance to 1 to activate
     define('MAINTENANCE', 0);

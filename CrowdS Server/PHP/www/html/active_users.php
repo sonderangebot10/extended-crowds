@@ -94,7 +94,7 @@ overflow: hidden;
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 59.405, lng: 17.950},
-        zoom: 8
+        zoom: 4
         });
         
         var users =<?= json_encode($users); ?>;
@@ -130,7 +130,7 @@ overflow: hidden;
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJiTsfvPJQFg8PoUyzHGMJlrKySpfeAXE&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNsj90xnCfxH_dCN6XAGjycwz0Z0DGPcc&callback=initMap"
 async defer></script>
 
     

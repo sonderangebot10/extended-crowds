@@ -14,7 +14,7 @@ services:
       DB_USERNAME: "${DB_USERNAME:-root}"
       DB_PASSWORD: "${DB_PASSWORD:-root}"
       DB_NAME: "${DB_NAME:-cs}"
-      FIREBASE_API_KEY: "${FIREBASE_API_KEY:-AAAAJ2m2_kU:APA91bEqZatAMuDgZWp4XXuOFhPHBjRGwHwF7-Syiua87hjnd8prvCc7jd5fXcV9VC3z1vAmjJnpJWnSpS5cH8rOh52FYS9b9r1njN10VKVE55AplX6J-a1CzcNXQHdwMqE0z0jCSpas}"
+      FIREBASE_API_KEY: "${FIREBASE_API_KEY:-AAAAkLFHwHw:APA91bEDfdJrgv_HQ0iOxXqutFjXso1mO0H_w-C7FtaF8JGmLSF7hyBBxBVebPxfRjEuetIwVNQ3j7SK_VM2TPW9l90xM0rKhrtIQeQBP8QEMqbSdIzOiTW6k-l-z0QukeuUfiUuNANp}"
       PHP_URL: "${PHP_URL:-http://192.168.0.106:8000}"
     container_name: php
   apache:
@@ -39,7 +39,8 @@ services:
     ports:
       - "3308:3306"
     volumes:
-      - "../MySQL/data:/var/lib/mysql"
+      - "C:/_repositories/Masters/SQL cache:/var/lib/mysql"
+      # set this where to save cached database
       - "../MySQL/docker-entrypoint-initdb:/docker-entrypoint-initdb.d/"
     networks:
       - backend
