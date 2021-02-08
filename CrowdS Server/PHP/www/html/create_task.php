@@ -118,52 +118,6 @@ else {
         $task_creator->sendNotification($users);
     }
     
-		// If the logging is on
-    if(LOG){
-        if($fields['type'] == "sensor"){
-            $type = $fields['sensor'];
-        }
-        else{
-            $type = $fields['hit_type'];
-        }
-        
-        $now = date('Y-m-d H:i:s');
-        if($fields['type'] == "sensor"){
-            $time = $fields['duration'] + TTL_SENSOR;
-            $ttl = date('Y-m-d H:i:00', strtotime("+".$time." minutes"));
-            $log = array('id'=>$id,
-                      'type'=>$type,
-                      'radius'=>$radius,
-                      'cost'=>$cost,
-                      'ttl'=>$ttl,
-                      'duration'=>$fields['duration'],
-                      'readings'=>$fields['readings'],
-                      'created'=> array('by'=>$fields['email'],
-                                        'possible members'=>array_column($in_prox_users,'email'),
-                                        'members'=>array_column($users,'email'),
-                                        'time'=>$now));
-            $fp = fopen(ROOT_PATH.'html/log/sensor_'.$id. '.json', 'w');
-        }
-        else{
-            $ttl = date('Y-m-d H:i:00', strtotime("+ ".TTL_HIT." minutes"));
-            $log = array('id'=>$id,
-                      'type'=>$type,
-                      'radius'=>$radius,
-                      'cost'=>$cost,
-                      'ttl'=>$ttl,
-                      'question'=>$fields['question'],
-                      'created'=> array('by'=>$fields['email'],
-                                        'possible members'=>array_column($in_prox_users,'email'),
-                                        'members'=>array_column($users,'email'),
-                                        'time'=>$now));
-            $fp = fopen(ROOT_PATH.'html/log/hit_'.$id. '.json', 'w');
-        }
-        
-        
-        fwrite($fp, json_encode($log,JSON_PRETTY_PRINT));
-        fclose($fp);
-    }
-    
     // everything went fine!
     $reply = array('status' => "OK");
 }

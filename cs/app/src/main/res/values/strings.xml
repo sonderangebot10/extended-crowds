@@ -103,6 +103,7 @@
     <string name="hit_question">Question</string>
     <string name="hit_single_choice">SingleChoice</string>
     <string name="hit_single_choice_task">Create single choice task</string>
+    <string name="hit_imagery_task">Create imagery task</string>
     <string name="hit_multiple_choice">MultipleChoice</string>
     <string name="hit_multiple_choice_task">Create multiple choice task</string>
     <string name="hit_numeric">Numeric</string>
@@ -122,6 +123,7 @@
     <string name="sensing_error_invalid_readings">Number of readings can\'t be greater than duration.</string>
     <string name="sensing_error_no_location">No location provided, please tap the map!</string>
     <string name="submit">Submit</string>
+    <string name="upload">Upload</string>
     <string name="question">Question:</string>
     <string name="question_options">Option</string>
     <string name="camera">Camera</string>

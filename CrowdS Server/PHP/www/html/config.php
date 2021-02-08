@@ -29,6 +29,7 @@
     define('IOS_VERSION', $dynamic_settings['IOS_VERSION']);
     define('QC_SINGLE', QC_PATH . $dynamic_settings['QC_SINGLE']);
     define('QC_MULTIPLE', QC_PATH . $dynamic_settings['QC_MULTIPLE']);
+    define('QC_IMAGE', QC_PATH . $dynamic_settings['QC_IMAGE']);
     define('QC_NUMERIC', QC_PATH . $dynamic_settings['QC_NUMERIC']);
     define('QC_LIGHT', QC_PATH . $dynamic_settings['QC_LIGHT']);
     define('QC_PRESSURE', QC_PATH . $dynamic_settings['QC_PRESSURE']);

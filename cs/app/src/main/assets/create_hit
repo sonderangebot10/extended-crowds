@@ -2,3 +2,4 @@
 CreateSingleChoiceTask:HITs.create:Single choice
 CreateMultipleChoiceTask:HITs.create:Multiple choice
 CreateNumericTask:HITs.create:Numeric
+CreateImageryTask:HITs.create:Imagery

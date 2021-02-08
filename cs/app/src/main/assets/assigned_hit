@@ -2,3 +2,4 @@
 AssignedSingleChoiceTask:HITs.assigned:single
 AssignedMultipleChoiceTask:HITs.assigned:multiple
 AssignedNumericTask:HITs.assigned:numeric
+AssignedImageryTask:HITs.assigned:image

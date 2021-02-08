@@ -1,15 +1,22 @@
 package fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.johan_dp8ahsz.cs.R;
+
+import java.io.ByteArrayOutputStream;
 
 import util.SensorValueInterpreter;
 
@@ -123,8 +130,30 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
 
             TextView mAnswerLabel = new TextView(getActivity());
             TextView mAnswerView  = new TextView(getActivity());
+            ImageView mImage = new ImageView(getActivity());
 
             mAnswerLabel.setText("Answer");
+
+            Boolean image = false;
+            LinearLayout layout = new LinearLayout(getActivity());
+            if(data[0].startsWith("img="))
+            {
+                image = true;
+
+                String encodedImage = data[0].replace("img=", "");
+                byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                        bitmap, bitmap.getWidth()*10, bitmap.getHeight()*10, false);
+
+                layout.setGravity(Gravity.CENTER);
+                layout.addView(mImage);
+
+                mImage.setImageBitmap(resizedBitmap);
+            }
+
             mAnswerView.setText(data[0].replace(";", ", "));
             mCreatedLabel.setText(getString(R.string.task_history_created));
             mCreatedView.setText(data[1]);
@@ -143,7 +172,15 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
             setTextColorAndSize(mCompletedView, 25);
 
             mainLayout.addView(mAnswerLabel);
-            mainLayout.addView(mAnswerView);
+            if(image)
+            {
+                mainLayout.addView(layout);
+            }
+            else
+            {
+                mainLayout.addView(mAnswerView);
+            }
+
             mainLayout.addView(mCreatedLabel);
             mainLayout.addView(mCreatedView);
             mainLayout.addView(mCompletedLabel);

@@ -27,35 +27,6 @@ include(constant($QC));
 $task_updator = getClass($file_path, $fields);
 $task_updator->updateTask();
 
-// if logging is activated
-if(LOG){
-    list($log_file,$index) = explode(':',$fields['id']);
-    if($task_updator->getType() == "hit"){
-        $log_path = ROOT_PATH."html/log/hit_".$log_file.".json";
-    }
-    else{
-        $log_path = ROOT_PATH."html/log/sensor_".$log_file.".json";
-    }
-    
-    $log = json_decode(file_get_contents($log_path), true);
-    
-    $now = date('Y-m-d H:i:s');
-    
-    if(isset($log['received_data'])){
-        array_push($log['received_data'],
-                        array("from"=>$fields['email'],
-                              "data"=>$fields['data'],
-                              "time"=>$now));
-    }
-    else{
-        $rd = array(array("from"=>$fields['email'],
-          "data"=>$fields['data'],
-          "time"=>$now));
-        
-        $log['received_data'] = $rd;
-    }
-}
-
 // if this was the last update to complete the task
 if($task_updator->isCompleted()){
     $task_data = $task_updator->finishTask();
@@ -97,27 +68,6 @@ if($task_updator->isCompleted()){
     $rep = getClass(constant('REP'), $task_data);
     $rep->calculateReputation();
     $rep->updateReputation();
-    
-		// if logging is activated
-    if(LOG){
-        $participants = explode(";", $task_data['participants']);
-        $p = array();
-        foreach($participants as $str){
-            list($index, $id) = explode(":", $str);
-            $p[$index] = $id;
-        }
-        
-        $log['completed'] = array("result"=>$result,
-                                  "participated"=>$p,
-                                  "time"=>$now);
-    }
-}
-
-// if logging is activated
-if(LOG){
-    $fp = fopen($log_path, 'w');
-    fwrite($fp, json_encode($log,JSON_PRETTY_PRINT));
-    fclose($fp);
 }
 
 // send reply

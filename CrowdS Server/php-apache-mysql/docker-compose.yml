@@ -35,11 +35,11 @@ services:
     container_name: apache
   mysql:
     image: mysql:${MYSQL_VERSION:-latest}
-    # restart: always
+    restart: always
     ports:
       - "3308:3306"
     volumes:
-      - "C:/_repositories/Masters/SQL cache:/var/lib/mysql"
+      - "C:/_repositories/Masters/SQL cache9:/var/lib/mysql"
       # set this where to save cached database
       - "../MySQL/docker-entrypoint-initdb:/docker-entrypoint-initdb.d/"
     networks:

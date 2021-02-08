@@ -38,7 +38,7 @@ CREATE TABLE `human_task` (
   `completed_time` timestamp NULL DEFAULT NULL,
   `distributed` int(11) DEFAULT NULL,
   `participants` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `answer` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT 'no answer',
+  `answer` varchar(5000) COLLATE utf8mb4_unicode_ci DEFAULT 'no answer',
   `members` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cost` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -149,7 +149,7 @@ CREATE TABLE `sensor_task` (
   `duration` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `readings` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sensor_data` varchar(225) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `result` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT 'no answer',
+  `result` varchar(5000) COLLATE utf8mb4_unicode_ci DEFAULT 'no answer',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `completed_time` timestamp NULL DEFAULT NULL,
   `distributed` int(11) DEFAULT NULL,

@@ -4,6 +4,7 @@
  "TA":"vcg.php",
  "QC_SINGLE":"majority_voting.php",
  "QC_MULTIPLE":"majority_voting.php",
+ "QC_IMAGE":"majority_voting.php",
  "QC_NUMERIC":"distance.php",
  "QC_LIGHT":"distance.php",
  "QC_PRESSURE":"distance.php",
