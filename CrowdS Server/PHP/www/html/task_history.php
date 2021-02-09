@@ -32,20 +32,23 @@ if(!empty($tasks)){
 }
 
 // if there is prefix img= in tasks[data] then send the string from file
-$task = $tasks[0];
-if(substr( $task['answer'], 0, 4 ) === "img=")
-{
-    $filename = $task['answer'];
-    $fp = fopen($filename, "r");
+$array_to_send = array();
+foreach($tasks as $task) {
+    
+    if(substr( $task['answer'], 0, 4 ) === "img=")
+    {
+        $filename = $task['answer'];
+        $fp = fopen($filename, "r");
 
-    $content = fread($fp, filesize($filename));
-    fclose($fp);
+        $content = fread($fp, filesize($filename));
+        fclose($fp);
 
-    $task['answer'] = "img=".$content;
+        $task['answer'] = "img=".$content;
+    }
+    array_push($array_to_send, $task);
 }
 
-$tasks = [$task];
-$reply = array('status' => "OK", 'tasks' => $tasks);
+$reply = array('status' => "OK", 'tasks' => $array_to_send);
 echo json_encode($reply);
 
 ?>
