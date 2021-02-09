@@ -157,10 +157,7 @@ public class AssignedImageryTask extends AppCompatActivity implements AssignedHI
                     SystemUtils.displayToast(context, "Choose a radio button!");
                 } else {
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    //Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                    //        context.bitmap, context.bitmap.getWidth()/25, context.bitmap.getHeight()/25, false);
-
-                    context.bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                    context.bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                     byte[] byteArray = byteArrayOutputStream.toByteArray();
                     String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
@@ -171,7 +168,7 @@ public class AssignedImageryTask extends AppCompatActivity implements AssignedHI
                     SystemUtils.showProgress(true, context, mProgressView, mAssignedFormView);
 
                     HashMap<String, String> params = new HashMap<>();
-                    params.put("data", "img=" + encoded);
+                    params.put("data", encoded);
                     params.put("type", "image");
                     params.put("id", id);
                     params.put("file", "imagery.php");

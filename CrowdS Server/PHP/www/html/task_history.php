@@ -31,7 +31,20 @@ if(!empty($tasks)){
     array_multisort($time, SORT_DESC, $tasks);
 }
 
+// if there is prefix img= in tasks[data] then send the string from file
+$task = $tasks[0];
+if(substr( $task['answer'], 0, 4 ) === "img=")
+{
+    $filename = $task['answer'];
+    $fp = fopen($filename, "r");
 
+    $content = fread($fp, filesize($filename));
+    fclose($fp);
+
+    $task['answer'] = "img=".$content;
+}
+
+$tasks = [$task];
 $reply = array('status' => "OK", 'tasks' => $tasks);
 echo json_encode($reply);
 

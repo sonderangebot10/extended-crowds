@@ -140,18 +140,14 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
             {
                 image = true;
 
-                String encodedImage = data[0].replace("img=", "");
+                String encodedImage = data[0]. substring(4);
                 byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                        bitmap, bitmap.getWidth()*10, bitmap.getHeight()*10, false);
+                mImage.setImageBitmap(bitmap);
 
                 layout.setGravity(Gravity.CENTER);
                 layout.addView(mImage);
-
-                mImage.setImageBitmap(resizedBitmap);
             }
 
             mAnswerView.setText(data[0].replace(";", ", "));

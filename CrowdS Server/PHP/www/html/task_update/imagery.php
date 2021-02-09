@@ -51,7 +51,15 @@ class MultipleChoice implements UpdateTaskInterface{
     }
     
     public function updateTask(){
-        $this->dbc->updateHumanTask($this->id, array("results", "participants"), array("'$this->new_data'", "'$this->new_participants'"));
+        $guid = bin2hex(openssl_random_pseudo_bytes(16));
+        $fileName = "img=".$guid.".txt";
+
+        $myfile = fopen($fileName, "w") or die("Unable to open file!");
+
+        fwrite($myfile, $this->new_data);
+        fclose($myfile);
+
+        $this->dbc->updateHumanTask($this->id, array("results", "participants"), array("'$fileName'", "'$this->new_participants'"));
     }
     
     public function getType(){
