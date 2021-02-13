@@ -1,24 +1,41 @@
 package fragment;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.johan_dp8ahsz.cs.R;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
+import activity.LoginActivity;
+import util.CustomRequest;
 import util.SensorValueInterpreter;
+import util.SystemUtils;
 
 public class TaskHistoryInformationFragment extends android.app.Fragment {
 
@@ -136,6 +153,15 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
 
             Boolean image = false;
             LinearLayout layout = new LinearLayout(getActivity());
+
+            Button mPlusOne = new Button(getActivity());
+            mPlusOne.setText("+1");
+            mPlusOne.setTextSize(20);
+
+            Button mMinusOne = new Button(getActivity());
+            mMinusOne.setText("-1");
+            mMinusOne.setTextSize(20);
+
             if(data[0].startsWith("img="))
             {
                 image = true;
@@ -170,6 +196,22 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
             if(image)
             {
                 mainLayout.addView(layout);
+                mainLayout.addView(mPlusOne);
+                mainLayout.addView(mMinusOne);
+
+                mPlusOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.displayToast(getActivity(), "+1");
+                    }
+                });
+
+                mMinusOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.displayToast(getActivity(), "-1");
+                    }
+                });
             }
             else
             {
