@@ -203,6 +203,8 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
                     @Override
                     public void onClick(View view) {
                         SystemUtils.displayToast(getActivity(), "+1");
+                        mPlusOne.setEnabled(false);
+                        mMinusOne.setEnabled(true);
                     }
                 });
 
@@ -210,6 +212,8 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
                     @Override
                     public void onClick(View view) {
                         SystemUtils.displayToast(getActivity(), "-1");
+                        mMinusOne.setEnabled(false);
+                        mPlusOne.setEnabled(true);
                     }
                 });
             }
