@@ -1,13 +1,16 @@
 package fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -21,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.example.johan_dp8ahsz.cs.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -33,11 +38,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import activity.LoginActivity;
+import activity.MainActivity;
+import interfaces.AssignedHITInterface;
 import util.CustomRequest;
 import util.SensorValueInterpreter;
 import util.SystemUtils;
 
-public class TaskHistoryInformationFragment extends android.app.Fragment {
+public class TaskHistoryInformationFragment extends android.app.Fragment implements AssignedHITInterface {
 
 
     //TODO: Change this class to be modular like Create Task and Assigned Task.
@@ -45,12 +52,18 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
 
 
     private final String TAG = "T_HIST";
+    private FragmentManager fragmentManager;
+    private String id;
+    private SharedPreferences prefs;
+    private RequestQueue queue;
 
     // UI references
 
     String question = "", type = "";
     String[] data;
     String[][] formatedData;
+
+    boolean voted;
 
     String sensor, duration;
 
@@ -64,6 +77,8 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_history_information, container, false);
         LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.history_info_main);
+        queue = Volley.newRequestQueue(getActivity());
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         // Fetch arguments passed to this fragment
         Bundle args = this.getArguments();
@@ -73,6 +88,9 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
             data = args.getString("data").split(",");
             sensor = args.getString("sensor");
             duration = args.getString("duration");
+            String id = args.getString("task_id");
+            voted = Boolean.parseBoolean(args.getString("voted_img"));
+
         }
 
         // mutual views
@@ -154,10 +172,6 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
             Boolean image = false;
             LinearLayout layout = new LinearLayout(getActivity());
 
-            Button mPlusOne = new Button(getActivity());
-            mPlusOne.setText("+1");
-            mPlusOne.setTextSize(20);
-
             Button mMinusOne = new Button(getActivity());
             mMinusOne.setText("-1");
             mMinusOne.setTextSize(20);
@@ -196,24 +210,66 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
             if(image)
             {
                 mainLayout.addView(layout);
-                mainLayout.addView(mPlusOne);
                 mainLayout.addView(mMinusOne);
 
-                mPlusOne.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SystemUtils.displayToast(getActivity(), "+1");
-                        mPlusOne.setEnabled(false);
-                        mMinusOne.setEnabled(true);
-                    }
-                });
+                if(voted) {
+                    mMinusOne.setEnabled(false);
+                }
 
                 mMinusOne.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SystemUtils.displayToast(getActivity(), "-1");
+
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("type", "image");
+                        params.put("id", id);
+                        params.put("file", "imagery.php");
+                        params.put("email", prefs.getString("email", "something fucked up"));
+
                         mMinusOne.setEnabled(false);
-                        mPlusOne.setEnabled(true);
+
+                        // prepare the Request
+                        CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, "http://192.168.1.142:8100/update_img_task_minus_point.php",
+                                params, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                try {
+                                    String status = response.getString("status");
+                                    if (status.equals("OK")) { // Everything's ok!
+                                        SystemUtils.displayToast(getActivity(), getActivity().getString(R.string.assigned_task_success));
+
+                                    } else { // WRONG!
+                                        // Print the reason for why something went wrong
+                                        String reason = response.getString("reason");
+                                        SystemUtils.displayToast(getActivity(), reason);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError response) {
+                                Log.d("Response: ", response.toString());
+                            }
+                        });
+
+                        // add the request to the RequestQueue
+                        queue.add(jsObjRequest);
+
+                        // Remove the spinner after DELAY seconds, and show a message if we have not been
+                        // able to communicate with the server.
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        }, 10000);
+
                     }
                 });
             }
@@ -231,6 +287,22 @@ public class TaskHistoryInformationFragment extends android.app.Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void createUI(LinearLayout mainLayout, View[] list, MainActivity context) {
+
+    }
+
+    @Override
+    public void setUIRelatedData(Object[] fragmentManager, String[] data) {
+
+        this.fragmentManager = (FragmentManager) fragmentManager[0];
+
+        int j = 0;
+        if(data.length > 3){
+            id = data[0];
+        }
     }
 
     private void setTextColorAndSize(TextView text, int size){

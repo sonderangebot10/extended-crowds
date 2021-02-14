@@ -24,7 +24,6 @@ class MySQL implements DatabaseInterface {
         $this->conn = mysqli_connect($this->server,$this->username,$this->password,$this->database);
         if(mysqli_connect_errno()) echo $this->db_errors['connect'] . mysqli_connect_error();
     }
-    
     public function disconnect(){
         mysqli_close($this->conn);
         if(mysqli_errno($this->conn)) echo $this->db_errors['disconnect'] . mysqli_errno($this->conn);
@@ -244,6 +243,16 @@ class MySQL implements DatabaseInterface {
             $query = $query . "'$data[$i]'" . ", ";
         }
         $query = rtrim($query, ", ") . ")";
+        
+        return $this->query($query);
+    }
+
+    public function updateHitTask($id, $fields, $data) {
+        $query = "UPDATE cs.human_task SET ";
+        for ($i = 0; $i < count($fields); $i++) {
+            $query = $query . $fields[$i] . ' = ' . $data[$i] . ', ';
+        }
+        $query = rtrim($query, ", ") . " WHERE id = '$id'";
         
         return $this->query($query);
     }

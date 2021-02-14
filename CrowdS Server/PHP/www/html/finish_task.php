@@ -70,39 +70,6 @@ if(empty($task['completed_time'])){
         
     }
     
-    if(LOG){
-        if($type == "hit"){
-            $log_path = ROOT_PATH."html/log/hit_".$id.".json";
-        }
-        else{
-             $log_path = ROOT_PATH."html/log/sensor_".$id.".json";
-        }
-        
-        $log = json_decode(file_get_contents($log_path), true);
-        
-        if($completed){
-            $participants = explode(";", $task_data['participants']);
-            $p = array();
-            foreach($participants as $str){
-                list($index, $tid) = explode(":", $str);
-                $p[$index] = $tid;
-            }
-        }
-        else{
-            $p = null;
-        }
-        
-        $now = date('Y-m-d H:i:s');
-        
-        $log['completed'] = array("result"=>$result,
-                                  "participated"=>$p,
-                                  "time"=>$now);
-    
-        $fp = fopen($log_path, 'w');
-        fwrite($fp, json_encode($log,JSON_PRETTY_PRINT));
-        fclose($fp);
-    }
-    
     $rep = getClass(constant('REP'), $task_data);
     $rep->calculateReputation();
     $rep->updateReputation();

@@ -61,6 +61,10 @@ class MultipleChoice implements UpdateTaskInterface{
 
         $this->dbc->updateHumanTask($this->id, array("results", "participants"), array("'$fileName'", "'$this->new_participants'"));
     }
+
+    public function minusPoint(){
+        $this->dbc->updateSensorTask($this->id, array("voted_img"), array("true"));   
+     }
     
     public function getType(){
         return "hit";
