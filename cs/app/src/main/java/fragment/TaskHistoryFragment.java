@@ -56,6 +56,7 @@ public class TaskHistoryFragment extends android.app.Fragment {
 
     private SharedPreferences prefs;
 
+    String[] id_;
     String[] questions;     // The question (hit) or sensor used (sensing)
     String[] types;         // which kind of task
     String[] data;
@@ -152,6 +153,7 @@ public class TaskHistoryFragment extends android.app.Fragment {
                 args.putString("data", data[position]);
                 args.putString("sensor", sensor[position]);
                 args.putString("duration", duration[position]);
+                args.putString("id", id_[position]);
 
                 fragment.setArguments(args);
 
@@ -168,6 +170,7 @@ public class TaskHistoryFragment extends android.app.Fragment {
     private void transformJSONArray(JSONArray array){
 
         questions = new String[array.length()];
+        id_ = new String[array.length()];
         types = new String[array.length()];
         data = new String[array.length()];
         sensor = new String[array.length()];
@@ -183,6 +186,7 @@ public class TaskHistoryFragment extends android.app.Fragment {
                 String type = object.getString("type");
 
                 if(TextUtils.equals(type, "sensing")) {
+                    id_[i] = object.getString("id");
                     questions[i] = getString(R.string.task_history_label) + " " + object.getString("sensor");
                     types[i] = "Sensor task";
                     sensor[i] = object.getString("sensor");
@@ -193,6 +197,7 @@ public class TaskHistoryFragment extends android.app.Fragment {
                     // 5;5;7;;3;3
                     s =  object.getString("answer") + "," + object.getString("created") + "," + object.getString("completed");
                 } else{
+                    id_[i] = object.getString("id");
                     questions[i] = object.getString("question");
                     types[i] = type;
                     sensor[i] = "NoN";

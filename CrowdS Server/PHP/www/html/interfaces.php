@@ -24,6 +24,7 @@ interface DatabaseInterface {
     public function updateSensorTask($id, $fields, $data);
     public function insertHumanTask($fields, $data);
     public function getHumanTaskAll($id);
+    public function deleteHumanTaskAll($id);
     public function getHumanTaskFields($id, $fields);
     public function updateHumanTask($id, $fields, $data);
     public function getQualityAll($id);

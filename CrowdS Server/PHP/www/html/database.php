@@ -98,6 +98,10 @@ class DatabaseController {
     public function getHumanTaskAll($id){
         return $this->database->getHumanTaskAll($id);
     }
+
+    public function deleteHumanTaskAll($id){
+        return $this->database->deleteHumanTaskAll($id);
+    }
     
     public function getHumanTaskFields($id, $fields){
         return $this->database->getHumanTaskFields($id, $fields);

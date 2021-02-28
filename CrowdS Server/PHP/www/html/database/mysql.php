@@ -267,6 +267,12 @@ class MySQL implements DatabaseInterface {
         return $data;
     }
     
+    public function deleteHumanTaskAll($id){
+        $query = "DELETE FROM cs.human_task WHERE id = '$id'";
+        $results = $this->query($query);
+        return $results;
+    }
+
     public function getHumanTaskFields($id, $fields){
         $query = "SELECT ";
         for ($i = 0; $i < count($fields); $i++) {

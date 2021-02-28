@@ -59,7 +59,7 @@ public class TaskHistoryInformationFragment extends android.app.Fragment impleme
 
     // UI references
 
-    String question = "", type = "";
+    String question = "", type = "", id_ = "";
     String[] data;
     String[][] formatedData;
 
@@ -83,14 +83,12 @@ public class TaskHistoryInformationFragment extends android.app.Fragment impleme
         // Fetch arguments passed to this fragment
         Bundle args = this.getArguments();
         if(args != null){
+            id_ = args.getString("id");
             type = args.getString("type");
             question = args.getString("question");
             data = args.getString("data").split(",");
             sensor = args.getString("sensor");
             duration = args.getString("duration");
-            String id = args.getString("task_id");
-            voted = Boolean.parseBoolean(args.getString("voted_img"));
-
         }
 
         // mutual views
@@ -212,24 +210,17 @@ public class TaskHistoryInformationFragment extends android.app.Fragment impleme
                 mainLayout.addView(layout);
                 mainLayout.addView(mMinusOne);
 
-                if(voted) {
-                    mMinusOne.setEnabled(false);
-                }
-
                 mMinusOne.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         HashMap<String, String> params = new HashMap<>();
-                        params.put("type", "image");
-                        params.put("id", id);
-                        params.put("file", "imagery.php");
-                        params.put("email", prefs.getString("email", "something fucked up"));
+                        params.put("id", id_);
 
                         mMinusOne.setEnabled(false);
 
                         // prepare the Request
-                        CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, "http://192.168.1.142:8100/update_img_task_minus_point.php",
+                        CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, getString(R.string.REJECT_URL),
                                 params, new Response.Listener<JSONObject>() {
 
                             @Override
@@ -237,16 +228,22 @@ public class TaskHistoryInformationFragment extends android.app.Fragment impleme
 
                                 try {
                                     String status = response.getString("status");
-                                    if (status.equals("OK")) { // Everything's ok!
-                                        SystemUtils.displayToast(getActivity(), getActivity().getString(R.string.assigned_task_success));
-
+                                    if (status.equals("OK")) {
+                                        // Jump to somewhere more appropriate
+                                        Fragment fragment = new OngoingTasksFragment();
+                                        final FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+                                        ft.replace(R.id.frame_container, fragment, "Ongoing Tasks");
+                                        ft.commit();
                                     } else { // WRONG!
                                         // Print the reason for why something went wrong
-                                        String reason = response.getString("reason");
-                                        SystemUtils.displayToast(getActivity(), reason);
+                                        SystemUtils.displayToast(getActivity(), "No other users in the area of this task");
+
+                                        mMinusOne.setEnabled(true);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+
+                                    mMinusOne.setEnabled(true);
                                 }
                             }
                         }, new Response.ErrorListener() {
@@ -254,6 +251,8 @@ public class TaskHistoryInformationFragment extends android.app.Fragment impleme
                             @Override
                             public void onErrorResponse(VolleyError response) {
                                 Log.d("Response: ", response.toString());
+
+                                mMinusOne.setEnabled(true);
                             }
                         });
 

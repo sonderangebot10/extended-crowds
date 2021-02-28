@@ -37,6 +37,10 @@ class Sensor implements TaskHistoryInterface {
                 }
                 $task['created'] = $t[0]['create_time'];
                 $task['completed'] = $t[0]['completed_time'];
+
+                $task['task_id'] = $t[0]['id'];
+                $task['participants'] = $t[0]['participants'];
+                
                 $task['type'] = "sensing";
                 $tasks[] = $task;
             }
