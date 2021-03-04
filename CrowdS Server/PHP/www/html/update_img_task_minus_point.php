@@ -41,22 +41,22 @@ for($i = 0; $i < count($active); $i++){
         $active = array_values($active);
     }
 
-    if(strpos($task['participants'], $active[$i]['email']) !== false){
+    if(strpos($task['participants'], $active[$i]['email']) !== false) {
         unset($active[$i]);
         $active = array_values($active);
     }
 
-    $minutes_to_add = 5;
+    //$minutes_to_add = 5;
 
-    $now = time();
-    $one_minute = $now + (1 * 60);
-    $startDate = date('m-d-Y H:i:s', $now);
-    $endDate = date('m-d-Y H:i:s', $ten_minutes);
+    //$now = time();
+    //$one_minute = $now + (1 * 60);
+    //$startDate = date('m-d-Y H:i:s', $now);
+    //$endDate = date('m-d-Y H:i:s', $ten_minutes);
 
-    if(strpos($one_minute < new Date($task['task_completed'])) !== false){
-        unset($active[$i]);
-        $active = array_values($active);
-    }
+    //if(strpos($one_minute < new Date($task['task_completed'])) !== false){
+    //    unset($active[$i]);
+    //    $active = array_values($active);
+    //}
 }
 
 // if there are any active users, find those in close proximity to the task area
