@@ -34,6 +34,7 @@ $task = $tasks[0];
 $active = $dbc->getActiveUsers();
 
 // remove the task giver from active pool
+// remove if player recently did a task
 for($i = 0; $i < count($active); $i++){
     if($active[$i]['email'] == $task['task_giver']){
         unset($active[$i]);
@@ -44,6 +45,18 @@ for($i = 0; $i < count($active); $i++){
         unset($active[$i]);
         $active = array_values($active);
     }
+
+    $minutes_to_add = 5;
+
+    $now = time();
+    $one_minute = $now + (1 * 60);
+    $startDate = date('m-d-Y H:i:s', $now);
+    $endDate = date('m-d-Y H:i:s', $ten_minutes);
+
+    if(strpos($one_minute < new Date($task['task_completed'])) !== false){
+        unset($active[$i]);
+        $active = array_values($active);
+    }
 }
 
 // if there are any active users, find those in close proximity to the task area
@@ -51,7 +64,7 @@ if(count($active) > 0){
     $in_prox_users = getUserInProximityTo($active, $task['latitude'], $task['longitude']);
     
     if(count($in_prox_users) > 0){
-				// Use the selected Task Allocation to find the set of providers
+		// Use the selected Task Allocation to find the set of providers
         $ta = getClass(constant('TA'),$in_prox_users);
         $users = $ta->getUsers();
         $cost = $ta->getCost();
@@ -84,6 +97,8 @@ else {
     
     // create the task using the specific task creation file for each task type
     // can be found in the task_creation folder
+    // remove points for the previous user
+    // block for one minute
     $task_creator = getClass($file_path, $fields);
     $id = $task_creator->insertTask($users);
     $task_creator->sendData($users);
