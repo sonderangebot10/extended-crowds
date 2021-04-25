@@ -313,12 +313,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
-        if ((checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && (checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
+        if ((checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && (checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)  && (checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED)) {
             return true;
         }
 
-        requestPermissions(new String[]{ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
-        requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_PERMISSIONS);
+        requestPermissions(new String[]{"android.permission.CAMERA", ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE}, REQUEST_PERMISSIONS);
 
         return false;
     }

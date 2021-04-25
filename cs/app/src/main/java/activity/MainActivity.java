@@ -107,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            bitmap = imageBitmap;
+            mImage.setImageBitmap(imageBitmap);
+        }
     }
 
     @Override

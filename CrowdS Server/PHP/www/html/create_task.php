@@ -12,7 +12,9 @@ define('TTL_SENSOR', 10);
 define('TTL_HIT', 180); 
 
 // radius of search area (km)
-$radius = 0.025;
+
+// RADIUS KM
+$radius = 5000;
 $closest = 0;
 
 $dbc = new DatabaseController();
@@ -131,7 +133,7 @@ function getUserInProximityTo($users, $latTo, $lngTo){
     $prox = array();
     $in_prox = array();
     $rad = M_PI / 180;
-    $max_radius = 1;
+    $max_radius = 5000;
     global $radius;
     global $closest;
     

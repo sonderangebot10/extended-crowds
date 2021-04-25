@@ -1,7 +1,9 @@
 package HITs.assigned;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -9,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -36,7 +39,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import activity.LoginActivity;
@@ -136,14 +142,36 @@ public class AssignedImageryTask extends AppCompatActivity implements AssignedHI
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_PICK);
-                context.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+                final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Choose your profile picture");
+
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+
+                        if (options[item].equals("Take Photo")) {
+
+                            Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            context.startActivityForResult(takePicture, 2);
+
+                        } else if (options[item].equals("Choose from Gallery")) {
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK);
+                            pickPhoto.setType("image/*");
+                            context.startActivityForResult(Intent.createChooser(pickPhoto, "Select Picture") , 1);
+
+                        } else if (options[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
             }
         });
     }
-
 
     private void createSubmitButton(Button button, final activity.MainActivity context) {
 
@@ -161,7 +189,7 @@ public class AssignedImageryTask extends AppCompatActivity implements AssignedHI
                     byte[] byteArray = byteArrayOutputStream.toByteArray();
                     String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                    SystemUtils.displayToast(context, context.filePath.toString());
+                    // SystemUtils.displayToast(context, context.filePath.toString());
 
                     // When we've answered the question, remove this HIT from the string in
                     // shared preferences and send the answer to the server
