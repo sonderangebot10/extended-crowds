@@ -26,10 +26,7 @@ Smartwatch and create tasks once it receives information from the Smartwatch.
     * MYSQL_VERSION
     * DB_ROOT_PASSWORD
 
-2. Update path to mapped volumes within the docker-compose.yml. The absolute path to **PHP\www\html** should be updated in the first part (before the colon) in the volumes section for both php and apache service.
-Same should be performed for the mysql service, where the mapped volume is to **MySQL\data** and **MySQL\docker-entrypoint-initdb**.
-
-3. Go to the docker-compose.yml file and executed the command **docker-compose up**. This should start all the containers.
+3. Go to the docker-compose.yml file and executed the command **docker-compose up --build**. This should start all the containers.
 
 ## How to run the server natively
 Please, check the [Server Documentation.pdf](https://github.com/viktoriya-kutsarova/extended-crowds/blob/master/docs/Server%20Documentation.pdf)
