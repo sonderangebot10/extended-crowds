@@ -141,8 +141,6 @@ public class TaskHistoryFragment extends android.app.Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                SystemUtils.displayToast(getActivity(), String.valueOf(position));
-
                 // Create a new fragment to switch to
                 Fragment fragment = new TaskHistoryInformationFragment();
 

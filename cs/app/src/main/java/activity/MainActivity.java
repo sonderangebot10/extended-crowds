@@ -98,11 +98,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        int imgSize = 900;
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                mImage.setImageURI(filePath);
+
+                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                final double viewWidthToBitmapWidthRatio = (double)imageBitmap.getHeight() / (double)imageBitmap.getWidth();
+                Bitmap scaled = Bitmap.createScaledBitmap(imageBitmap, imgSize, (int)(imgSize * viewWidthToBitmapWidthRatio), false);
+                mImage.setImageBitmap(scaled);
+
+                bitmap = scaled;
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,8 +120,11 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            bitmap = imageBitmap;
-            mImage.setImageBitmap(imageBitmap);
+            final double viewWidthToBitmapWidthRatio = (double)imageBitmap.getHeight() / (double)imageBitmap.getWidth();
+            Bitmap scaled = Bitmap.createScaledBitmap(imageBitmap, imgSize, (int)(imgSize * viewWidthToBitmapWidthRatio), false);
+            mImage.setImageBitmap(scaled);
+
+            bitmap = scaled;
         }
     }
 
